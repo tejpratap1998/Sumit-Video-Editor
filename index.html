@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en" class="lenis lenis-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>SUMIT KUMAR | Cinematic Video Editor &amp; Motion Designer</title>
+  
+  <meta name="description" content="Portfolio of Sumit Kumar — Professional Video Editor with 2+ years of experience in Premiere Pro, After Effects, and CapCut. Crafting cinematic edits that stop the scroll." />
+  <meta name="keywords" content="Sumit Kumar, Video Editor, Premiere Pro, After Effects, CapCut, Cinematic Video Editing, Reels, Motion Design, Color Grading" />
+  <meta name="author" content="Sumit Kumar" />
+  
+  <!-- Open Graph / Meta -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="SUMIT KUMAR | Cinematic Video Editor" />
+  <meta property="og:description" content="Editing that hits different. Explore high-retention reels, brand commercials, and cinematic storytelling." />
+  <meta property="og:theme-color" content="#000000" />
+
+  <!-- Google Fonts: Syne, Bebas Neue, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@700;800&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Icons (FontAwesome 6) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Core Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/grain.css" />
+
+  <!-- GSAP, Three.js, Lenis Libraries via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+</head>
+<body class="loading-state">
+
+  <!-- ============================================================
+       0. CINEMATIC OVERLAYS (Grain, Scanlines, Light Streaks)
+       ============================================================ -->
+  <div class="film-grain-overlay" aria-hidden="true"></div>
+  <div class="crt-scanlines" aria-hidden="true"></div>
+  <div class="anamorphic-streak" aria-hidden="true"></div>
+  <div class="flash-cut-overlay" id="flashCut" aria-hidden="true"></div>
+
+  <!-- Custom Cursor -->
+  <div class="custom-cursor" id="customCursor" aria-hidden="true">
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring">
+      <span class="cursor-label" id="cursorLabel">VIEW</span>
+      <i class="fa-solid fa-play cursor-icon" id="cursorIcon"></i>
+    </div>
+  </div>
+
+  <!-- Top NLE Video Timeline Progress Scrubber -->
+  <div class="timeline-progress-bar" id="timelineProgressBar">
+    <div class="timeline-track">
+      <div class="timeline-fill" id="timelineFill"></div>
+      <div class="timeline-playhead" id="timelinePlayhead"></div>
+    </div>
+    <div class="timeline-meta">
+      <span class="timecode-display" id="globalTimecode">TC 00:00:00:00</span>
+      <span class="fps-badge">60.00 FPS · 4K PRORES</span>
+      <span class="render-badge"><span class="pulse-dot"></span> REALTIME RENDER</span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SECTION 1: CINEMATIC FULL-SCREEN LOADER
+       ============================================================ -->
+  <aside class="cinematic-loader" id="cinematicLoader" aria-label="Loading sequence">
+    <div class="loader-backdrop"></div>
+    <div class="loader-projector-flicker"></div>
+    
+    <!-- Timecode & NLE Calibration Header -->
+    <div class="loader-calibration">
+      <div class="cal-left">
+        <span class="rec-dot"></span> <span class="rec-text">REC [4K UHD]</span>
+        <span class="aspect-ratio-tag">2.39:1 CINEMASCOPE</span>
+      </div>
+      <div class="cal-right">
+        <span class="loader-tc" id="loaderTimecode">00:00:00:00</span>
+      </div>
+    </div>
+
+    <!-- Center Loader Content -->
+    <div class="loader-center">
+      <div class="loader-film-clapper">
+        <div class="clapper-bars"></div>
+      </div>
+      
+      <!-- Video Timeline Draw Line -->
+      <div class="loader-timeline-bar-wrapper">
+        <div class="loader-timeline-bar" id="loaderTimelineBar"></div>
+      </div>
+      
+      <!-- Staggered Typography Reveal -->
+      <div class="loader-brand-title">
+        <span class="title-char">S</span>
+        <span class="title-char">U</span>
+        <span class="title-char">M</span>
+        <span class="title-char">I</span>
+        <span class="title-char">T</span>
+        <span class="title-char space">&nbsp;</span>
+        <span class="title-char">K</span>
+        <span class="title-char">U</span>
+        <span class="title-char">M</span>
+        <span class="title-char">A</span>
+        <span class="title-char">R</span>
+        <span class="blinking-cursor">|</span>
+      </div>
+
+      <div class="loader-subtitle" id="loaderSubtitle">
+        <span class="sub-word">PROFESSIONAL</span>
+        <span class="sub-dot">·</span>
+        <span class="sub-word">VIDEO</span>
+        <span class="sub-dot">·</span>
+        <span class="sub-word">EDITOR</span>
+      </div>
+
+      <div class="loader-tools-ticker">
+        <span>PREMIERE PRO</span>
+        <span class="sep">/</span>
+        <span>AFTER EFFECTS</span>
+        <span class="sep">/</span>
+        <span>CAPCUT PRO</span>
+      </div>
+    </div>
+
+    <!-- Bottom Skip Action -->
+    <div class="loader-bottom">
+      <button class="skip-loader-btn" id="skipLoaderBtn" type="button">
+        SKIP INTRO <i class="fa-solid fa-forward-step"></i>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============================================================
+       NAVIGATION HEADER
+       ============================================================ -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner container">
+      
+      <!-- Logo / Monogram -->
+      <a href="#hero" class="brand-logo magnetic-target" aria-label="Sumit Kumar Home">
+        <div class="logo-mark">
+          <span class="mark-letter">S</span>
+          <span class="mark-letter gold">K</span>
+          <div class="logo-cut-line"></div>
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">SUMIT KUMAR</span>
+          <span class="logo-role">VIDEO EDITOR</span>
+        </div>
+      </a>
+
+      <!-- Status Badge -->
+      <div class="status-pill hide-mobile">
+        <span class="status-indicator"></span>
+        <span class="status-label">OPEN FOR COMMISSIONS</span>
+      </div>
+
+      <!-- Desktop Nav Links -->
+      <nav class="main-nav" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li><a href="#interview" class="nav-link magnetic-target" data-hover="ABOUT"><span>01.</span> ABOUT</a></li>
+          <li><a href="#showcase" class="nav-link magnetic-target" data-hover="WORK"><span>02.</span> SHOWREEL</a></li>
+          <li><a href="#services" class="nav-link magnetic-target" data-hover="SERVICES"><span>03.</span> SERVICES</a></li>
+          <li><a href="#process" class="nav-link magnetic-target" data-hover="PROCESS"><span>04.</span> WORKFLOW</a></li>
+          <li><a href="#cta" class="nav-link magnetic-target" data-hover="CONTACT"><span>05.</span> CONTACT</a></li>
+        </ul>
+      </nav>
+
+      <!-- Action Controls (Sound & WhatsApp CTA) -->
+      <div class="header-actions">
+        <!-- Audio Sound Toggle -->
+        <button class="sound-toggle-btn magnetic-target" id="soundToggleBtn" type="button" aria-label="Toggle Cinematic Sound" title="Toggle Sound FX">
+          <div class="sound-bars" id="soundBars">
+            <span class="s-bar"></span>
+            <span class="s-bar"></span>
+            <span class="s-bar"></span>
+            <span class="s-bar"></span>
+          </div>
+          <span class="sound-label" id="soundLabel">SOUND: OFF</span>
+        </button>
+
+        <!-- Direct WhatsApp Action -->
+        <a href="https://wa.me/917626874637?text=Hi%20Sumit,%20I%20saw%20your%20portfolio%20and%20want%20to%20hire%20you%20for%20a%20video%20editing%20project!" target="_blank" rel="noopener noreferrer" class="btn btn-header magnetic-target">
+          <i class="fa-brands fa-whatsapp whatsapp-icon"></i>
+          <span>LET'S TALK</span>
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger -->
+      <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+      </button>
+
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="mobile-drawer" id="mobileDrawer">
+      <nav class="mobile-nav">
+        <a href="#interview" class="mobile-link"><span>01</span> ABOUT SUMIT</a>
+        <a href="#showcase" class="mobile-link"><span>02</span> SIGNATURE WORK</a>
+        <a href="#services" class="mobile-link"><span>03</span> SERVICES &amp; CAPABILITIES</a>
+        <a href="#process" class="mobile-link"><span>04</span> EDITING WORKFLOW</a>
+        <a href="#cta" class="mobile-link"><span>05</span> START A PROJECT</a>
+      </nav>
+      <div class="mobile-drawer-footer">
+        <a href="https://wa.me/917626874637" class="btn btn-gold btn-full">
+          <i class="fa-brands fa-whatsapp"></i> MESSAGE ON WHATSAPP
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       BACKGROUND THREE.JS CANVAS
+       ============================================================ -->
+  <div class="three-canvas-container" id="threeCanvasContainer" aria-hidden="true">
+    <canvas id="threeHeroCanvas"></canvas>
+  </div>
+
+  <!-- MAIN SCROLL WRAPPER (LENIS) -->
+  <main id="smooth-wrapper">
+    <div id="smooth-content">
+
+      <!-- ============================================================
+           SECTION 2: HERO SECTION
+           ============================================================ -->
+      <section class="hero-section section-fullscreen" id="hero">
+        <div class="container hero-container">
+          
+          <!-- Cinematic Eyebrow -->
+          <div class="hero-eyebrow-wrapper">
+            <div class="gold-line-tag">
+              <span class="gold-dot"></span>
+              <span class="eyebrow-text">CREATIVE DIRECTOR OF YOUR STORY</span>
+            </div>
+            <div class="hero-nle-tag">
+              <span class="time-stamp">SEQ_01 // HERO_CUT</span>
+            </div>
+          </div>
+
+          <!-- Massive Cinematic Headline -->
+          <h1 class="hero-headline" aria-label="Editing That Hits Different">
+            <div class="headline-line"><span class="hero-word">EDITING</span> <span class="hero-word">THAT</span></div>
+            <div class="headline-line"><span class="hero-word gold-gradient-text">HITS</span> <span class="hero-word outline-text">DIFFERENT.</span></div>
+          </h1>
+
+          <!-- Subtext Badges -->
+          <div class="hero-subtext-container">
+            <div class="tools-pill-group">
+              <span class="tool-pill"><i class="fa-solid fa-film"></i> Premiere Pro</span>
+              <span class="tool-pill"><i class="fa-solid fa-wand-magic-sparkles"></i> After Effects</span>
+              <span class="tool-pill"><i class="fa-solid fa-scissors"></i> CapCut Pro</span>
+            </div>
+            <p class="hero-subparagraph">
+              <strong>2+ Years Experience</strong> · Crafting high-converting visual stories for Brands, Creators &amp; Digital Agencies.
+            </p>
+          </div>
+
+          <!-- CTA Button Group -->
+          <div class="hero-cta-group">
+            <a href="#showcase" class="btn btn-primary magnetic-target ripple-btn" id="heroShowcaseBtn">
+              <span class="btn-text">VIEW MY WORK</span>
+              <span class="btn-icon"><i class="fa-solid fa-arrow-down"></i></span>
+            </a>
+            
+            <a href="https://wa.me/917626874637?text=Hi%20Sumit,%20I'd%20like%20to%20start%20a%20new%20video%20project." target="_blank" rel="noopener noreferrer" class="btn btn-secondary magnetic-target ripple-btn">
+              <span class="btn-text">START A PROJECT</span>
+              <span class="btn-icon"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+          </div>
+
+          <!-- Scroll Indicator -->
+          <div class="hero-scroll-indicator">
+            <div class="scroll-countdown-track">
+              <div class="scroll-line-pulse"></div>
+            </div>
+            <span class="scroll-text">SCROLL TO EXPLORE</span>
+            <span class="scroll-frame-num">FRAME 001 // NLE</span>
+          </div>
+
+        </div>
+
+        <!-- Decorative Film Strip Borders -->
+        <div class="film-strip-border top" aria-hidden="true">
+          <div class="sprockets"></div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SECTION 3: THE SELF-INTRODUCTION ("THE INTERVIEW")
+           ============================================================ -->
+      <section class="interview-section" id="interview">
+        <div class="film-wipe-mask" id="interviewWipeMask"></div>
+
+        <div class="container interview-grid">
+          
+          <!-- Left: 3D Cinematic Visualizer & Editor Aura -->
+          <div class="interview-visual-column">
+            <div class="editor-orb-wrapper">
+              <div class="orb-glow-core"></div>
+              <div class="orb-ring ring-1"></div>
+              <div class="orb-ring ring-2"></div>
+              <div class="orb-ring ring-3"></div>
+              
+              <!-- NLE Audio Waveform Simulation Card -->
+              <div class="editor-visual-card glass-panel">
+                <div class="card-header-bar">
+                  <span class="red-rec">● LIVE INTERVIEW</span>
+                  <span class="cam-lens">4K 24FPS · 50MM F/1.2</span>
+                </div>
+                
+                <div class="editor-silhouette-art">
+                  <div class="silhouette-glow"></div>
+                  <!-- Stylized NLE Track Monitor Visual -->
+                  <div class="nle-screen-mock">
+                    <div class="track-line tr-1"></div>
+                    <div class="track-line tr-2"></div>
+                    <div class="track-line tr-3"></div>
+                    <div class="audio-wave-bars">
+                      <span class="wv"></span><span class="wv"></span><span class="wv"></span>
+                      <span class="wv"></span><span class="wv"></span><span class="wv"></span>
+                      <span class="wv"></span><span class="wv"></span><span class="wv"></span>
+                      <span class="wv"></span><span class="wv"></span><span class="wv"></span>
+                      <span class="wv"></span><span class="wv"></span><span class="wv"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-caption">
+                  <div class="caption-title">SUMIT KUMAR</div>
+                  <div class="caption-role">LEAD EDITOR &amp; STORY ARCHITECT</div>
+                </div>
+              </div>
+
+              <!-- Decorative Floating HUD elements -->
+              <div class="hud-badge hud-1">
+                <i class="fa-solid fa-bolt gold"></i>
+                <span>HIGH RETENTION PACING</span>
+              </div>
+              <div class="hud-badge hud-2">
+                <i class="fa-solid fa-sliders cyan"></i>
+                <span>DYNAMIC SOUND DESIGN</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Word-by-Word Live Subtitle Reveal -->
+          <div class="interview-text-column">
+            
+            <div class="section-tag">
+              <span class="tag-number">01</span>
+              <span class="tag-line"></span>
+              <span class="tag-label">THE PHILOSOPHY</span>
+            </div>
+
+            <!-- Dynamic Word-by-Word Subtitle Reveal -->
+            <div class="speaking-statement-box" id="speakingStatement">
+              <div class="speak-line"><span class="speak-word">HI.</span></div>
+              <div class="speak-line"><span class="speak-word">I'M</span> <span class="speak-word gold-gradient-text">SUMIT</span> <span class="speak-word gold-gradient-text">KUMAR.</span></div>
+              <div class="speak-line"><span class="speak-word">I</span> <span class="speak-word">DON'T</span> <span class="speak-word">JUST</span> <span class="speak-word">EDIT</span> <span class="speak-word">VIDEOS.</span></div>
+              <div class="speak-line"><span class="speak-word">I</span> <span class="speak-word">CRAFT</span> <span class="speak-word">THE</span> <span class="speak-word">MOMENT</span></div>
+              <div class="speak-line"><span class="speak-word electric-blue-text">YOUR</span> <span class="speak-word electric-blue-text">AUDIENCE</span> <span class="speak-word electric-blue-text">STOPS</span> <span class="speak-word electric-blue-text">SCROLLING.</span></div>
+            </div>
+
+            <!-- Narrative Paragraph -->
+            <p class="interview-paragraph" id="interviewParagraph">
+              With <strong>2+ years of professional experience</strong>, I combine storytelling, motion design, and visual psychology to create edits that feel cinematic, intentional, and powerful. Every frame is a decision. Every cut tells a story.
+            </p>
+
+            <!-- 3 Glassmorphism Stat Cards -->
+            <div class="interview-stats-grid">
+              
+              <!-- Stat 1 -->
+              <div class="stat-card glass-panel magnetic-target">
+                <div class="stat-top">
+                  <span class="stat-number" data-target="2">2</span><span class="stat-suffix">+</span>
+                </div>
+                <div class="stat-title">YEARS EXPERIENCE</div>
+                <p class="stat-desc">Full-time editing craft</p>
+                <div class="card-corner-accent"></div>
+              </div>
+
+              <!-- Stat 2 -->
+              <div class="stat-card glass-panel magnetic-target">
+                <div class="stat-top tools-count">
+                  <i class="fa-solid fa-sliders gold"></i>
+                </div>
+                <div class="stat-title">PRO TOOLKIT</div>
+                <p class="stat-desc">Premiere · After Effects · CapCut</p>
+                <div class="card-corner-accent"></div>
+              </div>
+
+              <!-- Stat 3 -->
+              <div class="stat-card glass-panel magnetic-target">
+                <div class="stat-top">
+                  <span class="stat-number" data-target="150">150</span><span class="stat-suffix">+</span>
+                </div>
+                <div class="stat-title">VIRAL CUTS DELIVERED</div>
+                <p class="stat-desc">Brands · Creators · Growth</p>
+                <div class="card-corner-accent"></div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SECTION 4: SIGNATURE REEL (HORIZONTAL SCROLL TIMELINE)
+           ============================================================ -->
+      <section class="showcase-section" id="showcase">
+        
+        <!-- Pinned Horizontal Wrapper -->
+        <div class="horizontal-scroll-container" id="horizontalScrollContainer">
+          
+          <!-- Top Sticky Timeline Scrub Bar -->
+          <div class="showcase-timeline-header">
+            <div class="container timeline-ruler-bar">
+              <div class="timeline-label-block">
+                <span class="tl-pulse"></span>
+                <span class="tl-title">TIMELINE SCRUBBER</span>
+                <span class="tl-sub">// PINNED SEQUENCE VIEW</span>
+              </div>
+              
+              <div class="timecode-ticks">
+                <span class="tick active">00:01:00</span>
+                <span class="tick-dash"></span>
+                <span class="tick">00:02:00</span>
+                <span class="tick-dash"></span>
+                <span class="tick">00:03:00</span>
+                <span class="tick-dash"></span>
+                <span class="tick">00:04:00</span>
+                <span class="tick-dash"></span>
+                <span class="tick">00:05:00</span>
+              </div>
+
+              <div class="timeline-hint">
+                <i class="fa-solid fa-arrows-left-right"></i> SCROLL TO SCRUB
+              </div>
+            </div>
+          </div>
+
+          <!-- Film Strip Perforations Top -->
+          <div class="film-strip-horizontal top" aria-hidden="true">
+            <div class="sprocket-row"></div>
+          </div>
+
+          <!-- Horizontal Cards Track -->
+          <div class="horizontal-track" id="horizontalTrack">
+            
+            <!-- INTRO SLIDE -->
+            <div class="project-card intro-card glass-panel">
+              <div class="intro-card-inner">
+                <div class="section-tag">
+                  <span class="tag-number">02</span>
+                  <span class="tag-line"></span>
+                  <span class="tag-label">PORTFOLIO SHOWCASE</span>
+                </div>
+                <h2 class="intro-title">SIGNATURE<br/><span class="gold-gradient-text">SHOWREEL</span></h2>
+                <p class="intro-desc">
+                  Explore selected video edits optimized for retention, pacing, and visual storytelling across formats.
+                </p>
+                <div class="scrub-cta">
+                  <span>SWIPE / SCROLL RIGHT</span>
+                  <i class="fa-solid fa-arrow-right-long pulse-arrow"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- PROJECT 1: High-Retention Viral Reel -->
+            <article class="project-card glass-panel magnetic-target" data-project="01" data-title="High-Retention Viral Reel" data-category="SHORT FORM / INSTAGRAM &amp; TIKTOK" data-tools="Premiere Pro + CapCut Pro" data-retention="+88% Avg Watch Time" data-summary="Fast-paced hook architecture with kinetic subtitles, micro-sound design, and dynamic whip transitions designed to stop the thumb on feed.">
+              <div class="card-gold-edge"></div>
+              
+              <div class="card-media-wrapper">
+                <div class="card-video-mockup v-reel">
+                  <div class="video-ambient-glow reel-glow-1"></div>
+                  <!-- Visual canvas art simulation -->
+                  <div class="media-art-frame reel-art-1">
+                    <div class="art-gradient"></div>
+                    <div class="art-elements">
+                      <span class="badge-9-16">9:16 VERTICAL</span>
+                      <div class="kinetic-text-preview">VIRAL HOOKS</div>
+                      <div class="sub-wave-bars"><span></span><span></span><span></span><span></span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="play-btn-circle" role="button" aria-label="Play High Retention Reel">
+                  <i class="fa-solid fa-play"></i>
+                  <span class="play-wave"></span>
+                </div>
+
+                <div class="card-badge">01 // RETENTION REEL</div>
+              </div>
+
+              <div class="card-content">
+                <div class="card-meta">
+                  <span class="meta-tag gold">SHORT-FORM REEL</span>
+                  <span class="meta-tc">00:00:30</span>
+                </div>
+                <h3 class="card-title">HIGH-RETENTION VIRAL REEL</h3>
+                <p class="card-desc">
+                  Hook pacing psychology and hyper-dynamic sound cues that boosted client retention by 85%.
+                </p>
+                <div class="card-footer-metrics">
+                  <span class="metric-item"><i class="fa-solid fa-arrow-trend-up gold"></i> 1.2M+ Views</span>
+                  <span class="metric-item"><i class="fa-solid fa-clock cyan"></i> 88% Retention</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- PROJECT 2: Brand Promo Commercial -->
+            <article class="project-card glass-panel magnetic-target" data-project="02" data-title="Cinematic Brand Commercial" data-category="COMMERCIAL / FASHION &amp; TECH" data-tools="Premiere Pro + After Effects" data-retention="Cinemascope 2.39:1" data-summary="Luxury aesthetic with moody anamorphic color grade, 3D typography integration, and rhythm-synced sound design for premium brand positioning.">
+              <div class="card-gold-edge"></div>
+              
+              <div class="card-media-wrapper">
+                <div class="card-video-mockup v-brand">
+                  <div class="video-ambient-glow reel-glow-2"></div>
+                  <div class="media-art-frame reel-art-2">
+                    <div class="art-gradient"></div>
+                    <div class="art-elements">
+                      <span class="badge-9-16">16:9 CINEMASCOPE</span>
+                      <div class="kinetic-text-preview">ELEVATED LUXURY</div>
+                      <div class="sub-wave-bars"><span></span><span></span><span></span><span></span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="play-btn-circle" role="button" aria-label="Play Brand Promo">
+                  <i class="fa-solid fa-play"></i>
+                  <span class="play-wave"></span>
+                </div>
+
+                <div class="card-badge">02 // BRAND PROMO</div>
+              </div>
+
+              <div class="card-content">
+                <div class="card-meta">
+                  <span class="meta-tag cyan">BRAND COMMERCIAL</span>
+                  <span class="meta-tc">00:01:15</span>
+                </div>
+                <h3 class="card-title">LUXURY BRAND PROMO</h3>
+                <p class="card-desc">
+                  High-octane commercial edit for fashion &amp; tech brands with custom film grain and tonal grading.
+                </p>
+                <div class="card-footer-metrics">
+                  <span class="metric-item"><i class="fa-solid fa-eye gold"></i> Brand Elevation</span>
+                  <span class="metric-item"><i class="fa-solid fa-sliders cyan"></i> Custom LUT Grade</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- PROJECT 3: YouTube Story & Documentary Edit -->
+            <article class="project-card glass-panel magnetic-target" data-project="03" data-title="YouTube Documentary Story Edit" data-category="LONG FORM / YOUTUBE NARRATIVE" data-tools="Premiere Pro + After Effects" data-retention="14:30 Duration" data-summary="Documentary pacing with custom archival visual treatments, sound design layers, and retention graph optimization for 500K+ subscriber channels.">
+              <div class="card-gold-edge"></div>
+              
+              <div class="card-media-wrapper">
+                <div class="card-video-mockup v-yt">
+                  <div class="video-ambient-glow reel-glow-3"></div>
+                  <div class="media-art-frame reel-art-3">
+                    <div class="art-gradient"></div>
+                    <div class="art-elements">
+                      <span class="badge-9-16">16:9 4K NARRATIVE</span>
+                      <div class="kinetic-text-preview">DEEP NARRATIVE</div>
+                      <div class="sub-wave-bars"><span></span><span></span><span></span><span></span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="play-btn-circle" role="button" aria-label="Play YouTube Documentary">
+                  <i class="fa-solid fa-play"></i>
+                  <span class="play-wave"></span>
+                </div>
+
+                <div class="card-badge">03 // YOUTUBE STORY</div>
+              </div>
+
+              <div class="card-content">
+                <div class="card-meta">
+                  <span class="meta-tag gold">YOUTUBE DOCUMENTARY</span>
+                  <span class="meta-tc">00:14:30</span>
+                </div>
+                <h3 class="card-title">YOUTUBE STORY EDIT</h3>
+                <p class="card-desc">
+                  Structured, engaging narrative built to maximize Average View Duration and viewer loyalty.
+                </p>
+                <div class="card-footer-metrics">
+                  <span class="metric-item"><i class="fa-solid fa-chart-line gold"></i> High AVD</span>
+                  <span class="metric-item"><i class="fa-solid fa-layer-group cyan"></i> Multi-Track SFX</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- PROJECT 4: 3D Product Launch Video -->
+            <article class="project-card glass-panel magnetic-target" data-project="04" data-title="Product Launch Kinetic Edit" data-category="MOTION DESIGN / PRODUCT LAUNCH" data-tools="After Effects + Premiere Pro" data-retention="4K 60FPS" data-summary="Kinetic typography, seamless 3D renders, fast cuts, and futuristic glitch transitions crafted for high-impact tech product launches.">
+              <div class="card-gold-edge"></div>
+              
+              <div class="card-media-wrapper">
+                <div class="card-video-mockup v-product">
+                  <div class="video-ambient-glow reel-glow-4"></div>
+                  <div class="media-art-frame reel-art-4">
+                    <div class="art-gradient"></div>
+                    <div class="art-elements">
+                      <span class="badge-9-16">TECH SHOWCASE</span>
+                      <div class="kinetic-text-preview">KINETIC 3D VFX</div>
+                      <div class="sub-wave-bars"><span></span><span></span><span></span><span></span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="play-btn-circle" role="button" aria-label="Play Product Launch Video">
+                  <i class="fa-solid fa-play"></i>
+                  <span class="play-wave"></span>
+                </div>
+
+                <div class="card-badge">04 // PRODUCT LAUNCH</div>
+              </div>
+
+              <div class="card-content">
+                <div class="card-meta">
+                  <span class="meta-tag cyan">PRODUCT LAUNCH</span>
+                  <span class="meta-tc">00:00:45</span>
+                </div>
+                <h3 class="card-title">PRODUCT LAUNCH VIDEO</h3>
+                <p class="card-desc">
+                  Sleek motion graphics, kinetic typography, and pulse-raising sound design that converts viewers into buyers.
+                </p>
+                <div class="card-footer-metrics">
+                  <span class="metric-item"><i class="fa-solid fa-wand-magic-sparkles gold"></i> Motion Graphics</span>
+                  <span class="metric-item"><i class="fa-solid fa-bolt cyan"></i> High Energy</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- PROJECT 5: Social Media Campaign Suite -->
+            <article class="project-card glass-panel magnetic-target" data-project="05" data-title="Social Media Growth Campaign" data-category="SOCIAL SUITE / REELS &amp; ADS" data-tools="Premiere Pro + CapCut Pro" data-retention="Multi-Platform" data-summary="Omnichannel multi-ratio video pack engineered to dominate Instagram Reels, YouTube Shorts, and TikTok ads with scalable templates.">
+              <div class="card-gold-edge"></div>
+              
+              <div class="card-media-wrapper">
+                <div class="card-video-mockup v-social">
+                  <div class="video-ambient-glow reel-glow-5"></div>
+                  <div class="media-art-frame reel-art-5">
+                    <div class="art-gradient"></div>
+                    <div class="art-elements">
+                      <span class="badge-9-16">OMNICHANNEL SUITE</span>
+                      <div class="kinetic-text-preview">SOCIAL GROWTH</div>
+                      <div class="sub-wave-bars"><span></span><span></span><span></span><span></span></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="play-btn-circle" role="button" aria-label="Play Social Media Campaign">
+                  <i class="fa-solid fa-play"></i>
+                  <span class="play-wave"></span>
+                </div>
+
+                <div class="card-badge">05 // SOCIAL CAMPAIGN</div>
+              </div>
+
+              <div class="card-content">
+                <div class="card-meta">
+                  <span class="meta-tag gold">SOCIAL CAMPAIGN</span>
+                  <span class="meta-tc">00:02:00</span>
+                </div>
+                <h3 class="card-title">SOCIAL MEDIA CAMPAIGN</h3>
+                <p class="card-desc">
+                  Trend-aware, platform-optimized multi-format video asset suite delivering rapid audience growth.
+                </p>
+                <div class="card-footer-metrics">
+                  <span class="metric-item"><i class="fa-solid fa-users gold"></i> Growth Focused</span>
+                  <span class="metric-item"><i class="fa-solid fa-mobile-screen cyan"></i> Multi-Ratio</span>
+                </div>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- Film Strip Perforations Bottom -->
+          <div class="film-strip-horizontal bottom" aria-hidden="true">
+            <div class="sprocket-row"></div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SECTION 5: SERVICES (CINEMATIC NLE TRACKS)
+           ============================================================ -->
+      <section class="services-section" id="services">
+        <div class="container">
+          
+          <div class="section-header-centered">
+            <div class="section-tag center">
+              <span class="tag-number">03</span>
+              <span class="tag-line"></span>
+              <span class="tag-label">CAPABILITIES</span>
+            </div>
+            <h2 class="section-title">SERVICES &amp; <span class="gold-gradient-text">EXPERTISE</span></h2>
+            <p class="section-subtitle">Precision post-production tailored to brands, creators, and agencies.</p>
+          </div>
+
+          <!-- Services Grid / Interactive NLE Tracks -->
+          <div class="services-grid">
+            
+            <!-- Service 1 -->
+            <div class="service-card glass-panel magnetic-target" data-service="1">
+              <div class="service-icon-box">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+              </div>
+              <div class="service-info">
+                <div class="service-num">01 / TRACK 1</div>
+                <h3 class="service-name">SHORT-FORM REEL EDITING</h3>
+                <p class="service-desc">Designed for maximum retention, instant hook engagement, and viral scroll-stopping impact across TikTok, Reels &amp; Shorts.</p>
+              </div>
+              <div class="service-tags">
+                <span>Micro-Pacing</span>
+                <span>Sound Design</span>
+                <span>Captions</span>
+              </div>
+              <div class="service-hover-line"></div>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="service-card glass-panel magnetic-target" data-service="2">
+              <div class="service-icon-box">
+                <i class="fa-solid fa-clapperboard"></i>
+              </div>
+              <div class="service-info">
+                <div class="service-num">02 / TRACK 2</div>
+                <h3 class="service-name">BRAND ADVERTISEMENT EDITING</h3>
+                <p class="service-desc">Cinematic commercial promos that elevate brand perception, establish authority, and drive customer conversion.</p>
+              </div>
+              <div class="service-tags">
+                <span>Color Grading</span>
+                <span>Commercial Flow</span>
+                <span>4K Output</span>
+              </div>
+              <div class="service-hover-line"></div>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="service-card glass-panel magnetic-target" data-service="3">
+              <div class="service-icon-box">
+                <i class="fa-brands fa-youtube"></i>
+              </div>
+              <div class="service-info">
+                <div class="service-num">03 / TRACK 3</div>
+                <h3 class="service-name">YOUTUBE VIDEO EDITING</h3>
+                <p class="service-desc">Structured, engaging documentary and narrative edits built specifically to sustain high Average View Duration and click-throughs.</p>
+              </div>
+              <div class="service-tags">
+                <span>Story Pacing</span>
+                <span>Visual Hooks</span>
+                <span>B-Roll Layering</span>
+              </div>
+              <div class="service-hover-line"></div>
+            </div>
+
+            <!-- Service 4 -->
+            <div class="service-card glass-panel magnetic-target" data-service="4">
+              <div class="service-icon-box">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+              </div>
+              <div class="service-info">
+                <div class="service-num">04 / TRACK 4</div>
+                <h3 class="service-name">MOTION GRAPHICS &amp; VFX</h3>
+                <p class="service-desc">Dynamic visual typography, 2D/3D tracking, screen replacements, and UI animations that add deep polish and professionalism.</p>
+              </div>
+              <div class="service-tags">
+                <span>After Effects</span>
+                <span>Kinetic Type</span>
+                <span>Transitions</span>
+              </div>
+              <div class="service-hover-line"></div>
+            </div>
+
+            <!-- Service 5 -->
+            <div class="service-card glass-panel magnetic-target" data-service="5">
+              <div class="service-icon-box">
+                <i class="fa-solid fa-palette"></i>
+              </div>
+              <div class="service-info">
+                <div class="service-num">05 / TRACK 5</div>
+                <h3 class="service-name">COLOR GRADING &amp; LOOK DEV</h3>
+                <p class="service-desc">Cinematic tones, film emulation, skin-tone matching, and custom color palettes that define your distinct visual identity.</p>
+              </div>
+              <div class="service-tags">
+                <span>Film Emulation</span>
+                <span>LUT Creation</span>
+                <span>HDR / Rec.709</span>
+              </div>
+              <div class="service-hover-line"></div>
+            </div>
+
+            <!-- Service 6 -->
+            <div class="service-card glass-panel magnetic-target" data-service="6">
+              <div class="service-icon-box">
+                <i class="fa-solid fa-chart-pie"></i>
+              </div>
+              <div class="service-info">
+                <div class="service-num">06 / TRACK 6</div>
+                <h3 class="service-name">SOCIAL MEDIA CONTENT PACKS</h3>
+                <p class="service-desc">Trend-aware, batch-edited content assets optimized for cross-platform distribution and consistent channel growth.</p>
+              </div>
+              <div class="service-tags">
+                <span>Omnichannel</span>
+                <span>Fast Turnaround</span>
+                <span>Scalable</span>
+              </div>
+              <div class="service-hover-line"></div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SECTION 6: PROCESS (EDITING TIMELINE UI)
+           ============================================================ -->
+      <section class="process-section" id="process">
+        <div class="container">
+          
+          <div class="section-header-centered">
+            <div class="section-tag center">
+              <span class="tag-number">04</span>
+              <span class="tag-line"></span>
+              <span class="tag-label">WORKFLOW</span>
+            </div>
+            <h2 class="section-title">THE EDITING <span class="gold-gradient-text">TIMELINE</span></h2>
+            <p class="section-subtitle">How we transform raw footage into a captivating cinematic asset.</p>
+          </div>
+
+          <!-- Process Timeline UI -->
+          <div class="process-timeline-ui">
+            
+            <!-- SVG Connecting Dynamic Line -->
+            <div class="process-track-bar">
+              <div class="process-track-fill" id="processTrackFill"></div>
+            </div>
+
+            <!-- 4 Process Nodes -->
+            <div class="process-nodes-grid">
+              
+              <!-- Step 1 -->
+              <div class="process-node-card glass-panel magnetic-target" data-step="1">
+                <div class="node-marker">
+                  <span class="node-dot"></span>
+                  <span class="node-num">01</span>
+                </div>
+                <div class="node-body">
+                  <span class="node-phase">PHASE 01</span>
+                  <h3 class="node-title">BRIEF &amp; VISION</h3>
+                  <p class="node-desc">Deep-dive into your brand voice, target audience psychology, and specific goal metrics before cutting a single frame.</p>
+                  <div class="node-meta-tag">Asset Ingest &amp; Script Breakdown</div>
+                </div>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="process-node-card glass-panel magnetic-target" data-step="2">
+                <div class="node-marker">
+                  <span class="node-dot"></span>
+                  <span class="node-num">02</span>
+                </div>
+                <div class="node-body">
+                  <span class="node-phase">PHASE 02</span>
+                  <h3 class="node-title">STRUCTURE &amp; ROUGH CUT</h3>
+                  <p class="node-desc">Crafting the core narrative spine, dialling in pacing, hook timing, and removing any friction points that cause viewer drop-off.</p>
+                  <div class="node-meta-tag">Rough Cut &amp; Rhythm Sync</div>
+                </div>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="process-node-card glass-panel magnetic-target" data-step="3">
+                <div class="node-marker">
+                  <span class="node-dot"></span>
+                  <span class="node-num">03</span>
+                </div>
+                <div class="node-body">
+                  <span class="node-phase">PHASE 03</span>
+                  <h3 class="node-title">MOTION &amp; POLISH</h3>
+                  <p class="node-desc">Injecting custom motion graphics, sound design layers (whooshes, risers, hits), seamless transitions, and color grading.</p>
+                  <div class="node-meta-tag">SFX, VFX &amp; Color Grading</div>
+                </div>
+              </div>
+
+              <!-- Step 4 -->
+              <div class="process-node-card glass-panel magnetic-target" data-step="4">
+                <div class="node-marker">
+                  <span class="node-dot"></span>
+                  <span class="node-num">04</span>
+                </div>
+                <div class="node-body">
+                  <span class="node-phase">PHASE 04</span>
+                  <h3 class="node-title">DELIVERY &amp; SCALE</h3>
+                  <p class="node-desc">Final ProRes master exports and bitrate-optimized deliverables formatted for YouTube, Instagram, and TikTok algorithms.</p>
+                  <div class="node-meta-tag">Master 4K Export &amp; Variations</div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SECTION 7: FINAL CALL TO ACTION (3D CANVAS + WHATSAPP)
+           ============================================================ -->
+      <section class="cta-section" id="cta">
+        
+        <!-- 3D Mesh Canvas Background -->
+        <div class="cta-canvas-wrapper" aria-hidden="true">
+          <canvas id="threeCtaCanvas"></canvas>
+        </div>
+
+        <div class="container cta-content-box">
+          
+          <div class="section-tag center">
+            <span class="tag-number">05</span>
+            <span class="tag-line"></span>
+            <span class="tag-label">LET'S COLLABORATE</span>
+          </div>
+
+          <h2 class="cta-main-headline">
+            READY TO MAKE CONTENT<br />
+            <span class="gold-gradient-text">THAT ACTUALLY WORKS?</span>
+          </h2>
+
+          <p class="cta-subheading">
+            Let's create something that stops the scroll and demands attention. Fast turnaround, pristine quality.
+          </p>
+
+          <!-- WhatsApp Direct Conversion Button -->
+          <div class="cta-action-center">
+            <a href="https://wa.me/917626874637?text=Hi%20Sumit!%20I'm%20ready%20to%20start%20a%20video%20editing%20project.%20Let's%20discuss%20details." target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp-dominant magnetic-target ripple-btn" id="mainWhatsappCta">
+              <i class="fa-brands fa-whatsapp cta-wa-icon"></i>
+              <div class="btn-cta-text">
+                <span class="cta-primary-title">MESSAGE ON WHATSAPP</span>
+                <span class="cta-secondary-sub">+91 76268 74637 · Quick Response</span>
+              </div>
+              <i class="fa-solid fa-arrow-right cta-arrow"></i>
+            </a>
+          </div>
+
+          <!-- Quick Contact Details Card -->
+          <div class="cta-direct-info-card glass-panel">
+            <div class="info-item">
+              <span class="info-label"><i class="fa-solid fa-phone gold"></i> PHONE / WHATSAPP:</span>
+              <a href="tel:+917626874637" class="info-val copyable" data-copy="7626874637" title="Click to copy">
+                +91 76268 74637 <i class="fa-regular fa-copy copy-icon"></i>
+              </a>
+            </div>
+            <div class="info-separator"></div>
+            <div class="info-item">
+              <span class="info-label"><i class="fa-solid fa-clock cyan"></i> RESPONSE TIME:</span>
+              <span class="info-val highlight">⚡ Within 15 Minutes</span>
+            </div>
+            <div class="info-separator"></div>
+            <div class="info-item">
+              <span class="info-label"><i class="fa-solid fa-location-dot gold"></i> LOCATION:</span>
+              <span class="info-val">Remote / Worldwide</span>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ============================================================
+           FOOTER
+           ============================================================ -->
+      <footer class="site-footer" id="siteFooter">
+        <div class="container footer-grid">
+          
+          <div class="footer-col-brand">
+            <div class="logo-mark small">
+              <span class="mark-letter">S</span>
+              <span class="mark-letter gold">K</span>
+            </div>
+            <span class="footer-brand-name">SUMIT KUMAR</span>
+            <p class="footer-tagline">Cinematic Video Editor &amp; Storyteller.</p>
+          </div>
+
+          <div class="footer-col-nav">
+            <span class="footer-col-title">NAVIGATION</span>
+            <ul class="footer-links">
+              <li><a href="#hero">Back to Top</a></li>
+              <li><a href="#interview">About &amp; Philosophy</a></li>
+              <li><a href="#showcase">Signature Showcase</a></li>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#process">Editing Workflow</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col-social">
+            <span class="footer-col-title">CONNECT</span>
+            <div class="social-links-row">
+              <a href="https://wa.me/917626874637" target="_blank" rel="noopener noreferrer" class="social-circle magnetic-target" aria-label="WhatsApp">
+                <i class="fa-brands fa-whatsapp"></i>
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-circle magnetic-target" aria-label="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-circle magnetic-target" aria-label="YouTube">
+                <i class="fa-brands fa-youtube"></i>
+              </a>
+              <a href="mailto:contact@sumitkumar.edit" class="social-circle magnetic-target" aria-label="Email">
+                <i class="fa-regular fa-envelope"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="footer-bottom-bar container">
+          <div class="footer-copy">
+            © 2026 Sumit Kumar. All rights reserved. Every frame is a decision.
+          </div>
+          <div class="footer-timecode">
+            <span class="tc-led">TIMECODE OUT // 00:24:00:00</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  </main>
+
+  <!-- ============================================================
+       INTERACTIVE VIDEO PLAYER MODAL WITH BEFORE/AFTER COLOR SLIDER
+       ============================================================ -->
+  <dialog class="video-modal-dialog" id="videoModalDialog" aria-labelledby="modalProjectTitle">
+    <div class="modal-backdrop-blur" id="modalBackdrop"></div>
+    
+    <div class="modal-window glass-panel">
+      
+      <!-- Modal Title Bar -->
+      <div class="modal-header-bar">
+        <div class="modal-project-meta">
+          <span class="modal-tag" id="modalProjectCategory">SHORT FORM REEL</span>
+          <h3 class="modal-title" id="modalProjectTitle">HIGH-RETENTION VIRAL REEL</h3>
+        </div>
+        <div class="modal-tools-badge" id="modalProjectTools">Premiere Pro · CapCut Pro</div>
+        <button class="modal-close-btn magnetic-target" id="modalCloseBtn" type="button" aria-label="Close modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Video Player Viewport -->
+      <div class="modal-player-viewport" id="modalPlayerViewport">
+        
+        <!-- Interactive Simulated Video Canvas / Canvas Renderer -->
+        <div class="video-display-area" id="videoDisplayArea">
+          
+          <!-- Before / After Color Grading Slider Container -->
+          <div class="color-grade-comparison-container" id="colorGradeContainer">
+            
+            <!-- Layer 1: After (Full Color Grade & VFX) -->
+            <div class="grade-layer grade-after" id="gradeAfterLayer">
+              <div class="sim-scene-graphic after-vibe">
+                <div class="cinematic-lighting"></div>
+                <div class="hud-timecode" id="modalLiveTimecode">00:00:14:18</div>
+                <div class="scene-center-art">
+                  <div class="pulsing-showreel-icon"><i class="fa-solid fa-film"></i></div>
+                  <span class="scene-title-art" id="modalSceneTitle">MASTER COLOR GRADED</span>
+                  <span class="scene-spec">Rec.709 4K UHD · 60FPS · 10-BIT 4:2:2</span>
+                </div>
+              </div>
+              <span class="grade-label after-tag">COLOR GRADED (FINAL)</span>
+            </div>
+
+            <!-- Layer 2: Before (Flat RAW Log Footage) -->
+            <div class="grade-layer grade-before" id="gradeBeforeLayer">
+              <div class="sim-scene-graphic before-vibe">
+                <div class="scene-center-art">
+                  <div class="pulsing-showreel-icon flat"><i class="fa-solid fa-camera"></i></div>
+                  <span class="scene-title-art">RAW S-LOG3 PROFILE</span>
+                  <span class="scene-spec">FLAT UNGRADED SENSOR DATA</span>
+                </div>
+              </div>
+              <span class="grade-label before-tag">RAW UNGRADED LOG</span>
+            </div>
+
+            <!-- Splitter Handle -->
+            <div class="grade-splitter-handle" id="gradeSplitterHandle">
+              <div class="handle-line"></div>
+              <div class="handle-pill">
+                <i class="fa-solid fa-left-right"></i>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Custom NLE Transport Controls -->
+        <div class="modal-transport-bar">
+          <div class="transport-scrub-row">
+            <input type="range" class="modal-scrub-slider" id="modalScrubSlider" min="0" max="100" value="35" aria-label="Scrub video timeline" />
+          </div>
+          
+          <div class="transport-buttons-row">
+            <div class="transport-left">
+              <button class="transport-btn" id="modalPlayPauseBtn" type="button" aria-label="Play/Pause">
+                <i class="fa-solid fa-pause" id="playPauseIcon"></i>
+              </button>
+              <button class="transport-btn" id="modalRestartBtn" type="button" aria-label="Restart">
+                <i class="fa-solid fa-rotate-left"></i>
+              </button>
+              <span class="transport-time" id="modalTimeDisplay">00:12 / 00:30</span>
+            </div>
+
+            <div class="transport-center">
+              <span class="grade-toggle-instruction"><i class="fa-solid fa-arrows-left-right"></i> Drag center line to compare RAW vs Color Grade</span>
+            </div>
+
+            <div class="transport-right">
+              <!-- Speed Toggle -->
+              <div class="speed-toggle-group">
+                <button class="speed-btn active" data-speed="1">1x</button>
+                <button class="speed-btn" data-speed="1.5">1.5x</button>
+                <button class="speed-btn" data-speed="2">2x</button>
+              </div>
+              <!-- Aspect Toggle -->
+              <button class="aspect-toggle-btn" id="aspectToggleBtn" title="Toggle 9:16 / 16:9 Aspect Ratio">
+                <i class="fa-solid fa-mobile-screen"></i> 9:16
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Bottom Info & Direct Hire -->
+      <div class="modal-bottom-details">
+        <div class="modal-summary-text" id="modalProjectSummary">
+          Fast-paced hook architecture with kinetic subtitles, micro-sound design, and dynamic whip transitions designed to stop the thumb on feed.
+        </div>
+        <a href="https://wa.me/917626874637?text=Hi%20Sumit,%20I'm%20interested%20in%20an%20edit%20like%20this%20for%20my%20brand." target="_blank" rel="noopener noreferrer" class="btn btn-gold modal-cta-btn">
+          <i class="fa-brands fa-whatsapp"></i> REQUEST SIMILAR EDIT
+        </a>
+      </div>
+
+    </div>
+  </dialog>
+
+  <!-- ============================================================
+       STICKY FLOATING WHATSAPP BADGE (MOBILE & DESKTOP)
+       ============================================================ -->
+  <aside class="sticky-whatsapp-badge" id="stickyWhatsapp">
+    <a href="https://wa.me/917626874637?text=Hi%20Sumit,%20I%20want%20to%20discuss%20a%20video%20editing%20project." target="_blank" rel="noopener noreferrer" class="wa-float-btn magnetic-target" aria-label="Chat with Sumit on WhatsApp">
+      <div class="wa-icon-glow">
+        <i class="fa-brands fa-whatsapp"></i>
+      </div>
+      <div class="wa-hover-tooltip">
+        <span class="wa-tooltip-name">Sumit Kumar</span>
+        <span class="wa-tooltip-msg">⚡ Online · Tap to Chat</span>
+      </div>
+    </a>
+  </aside>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Javascript Modules -->
+  <script src="js/audio.js"></script>
+  <script src="js/three-bg.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/modal.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
