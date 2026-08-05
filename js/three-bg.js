@@ -285,6 +285,13 @@ class ThreeUniverse {
     const width = parent.clientWidth || window.innerWidth;
     const height = parent.clientHeight || 600;
 
+    // Adjust camera distance for mobile framing
+    if (window.innerWidth < 768) {
+      this.ctaCamera.position.z = 38;
+    } else {
+      this.ctaCamera.position.z = 28;
+    }
+
     this.ctaCamera.aspect = width / height;
     this.ctaCamera.updateProjectionMatrix();
     this.ctaRenderer.setSize(width, height);
