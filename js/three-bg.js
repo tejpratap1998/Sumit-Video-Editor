@@ -1,5 +1,7 @@
 /* ============================================================
    THREE.JS 3D CINEMATIC CANVAS ENGINE
+   - Hero: 2,200+ Particle Universe & Depth Grid
+   - Contact / CTA: 3D Floating Video Editing Tools Icons (Pr, Ae, CapCut)
    ============================================================ */
 
 class ThreeUniverse {
@@ -23,7 +25,6 @@ class ThreeUniverse {
   initHeroUniverse() {
     if (!this.heroCanvas) return;
 
-    // Scene & Camera
     this.heroScene = new THREE.Scene();
     this.heroScene.fog = new THREE.FogExp2(0x000000, 0.0012);
 
@@ -35,7 +36,6 @@ class ThreeUniverse {
     );
     this.heroCamera.position.z = 800;
 
-    // Renderer
     this.heroRenderer = new THREE.WebGLRenderer({
       canvas: this.heroCanvas,
       alpha: true,
@@ -58,12 +58,10 @@ class ThreeUniverse {
 
     for (let i = 0; i < particleCount; i++) {
       const i3 = i * 3;
-      // Spread across 3D space
       positions[i3] = (Math.random() - 0.5) * 2000;
       positions[i3 + 1] = (Math.random() - 0.5) * 1400;
       positions[i3 + 2] = (Math.random() - 0.5) * 1600;
 
-      // Color distribution: 60% gold, 30% cyan, 10% white
       const rand = Math.random();
       let selectedColor = goldColor;
       if (rand > 0.7) selectedColor = cyanColor;
@@ -80,7 +78,7 @@ class ThreeUniverse {
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
-    // Procedural glowing circle particle texture
+    // Glow particle texture
     const canvas = document.createElement('canvas');
     canvas.width = 64;
     canvas.height = 64;
@@ -108,7 +106,7 @@ class ThreeUniverse {
     this.heroParticles = new THREE.Points(geometry, material);
     this.heroScene.add(this.heroParticles);
 
-    // Subtle 3D Grid Perspective Floor
+    // Subtle 3D Grid Floor
     const gridHelper = new THREE.GridHelper(2400, 40, 0xC9A84C, 0x151620);
     gridHelper.position.y = -450;
     gridHelper.material.opacity = 0.18;
@@ -121,7 +119,6 @@ class ThreeUniverse {
   animateHero() {
     requestAnimationFrame(() => this.animateHero());
 
-    // Mouse parallax interpolation (lerp)
     this.mouse.x += (this.mouse.targetX - this.mouse.x) * 0.05;
     this.mouse.y += (this.mouse.targetY - this.mouse.y) * 0.05;
 
@@ -129,7 +126,6 @@ class ThreeUniverse {
       this.heroParticles.rotation.y += 0.0006;
       this.heroParticles.rotation.x += 0.0003;
 
-      // Cursor parallax
       this.heroCamera.position.x = this.mouse.x * 0.35;
       this.heroCamera.position.y = -this.mouse.y * 0.35;
       this.heroCamera.lookAt(this.heroScene.position);
@@ -141,14 +137,65 @@ class ThreeUniverse {
   }
 
   // ------------------------------------------------------------
-  // 2. CTA 3D TORUS KNOT MESH
+  // 2. CONTACT / CTA 3D FLOATING TOOLS ICONS (Pr, Ae, CapCut)
   // ------------------------------------------------------------
+  createToolTexture(name, sub, bgGradient, textColor, borderGlow) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d');
+
+    // Rounded background box
+    const radius = 64;
+    ctx.fillStyle = bgGradient[0];
+    const grad = ctx.createLinearGradient(0, 0, 512, 512);
+    grad.addColorStop(0, bgGradient[0]);
+    grad.addColorStop(1, bgGradient[1]);
+    ctx.fillStyle = grad;
+
+    ctx.beginPath();
+    ctx.roundRect(16, 16, 480, 480, radius);
+    ctx.fill();
+
+    // Glowing border
+    ctx.lineWidth = 14;
+    ctx.strokeStyle = borderGlow;
+    ctx.stroke();
+
+    // Inner subtle glow line
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+    ctx.beginPath();
+    ctx.roundRect(32, 32, 448, 448, radius - 10);
+    ctx.stroke();
+
+    // Big Tool Letters (e.g. Pr, Ae, CC)
+    ctx.fillStyle = textColor;
+    ctx.font = '900 170px "Syne", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.shadowColor = borderGlow;
+    ctx.shadowBlur = 30;
+    ctx.fillText(name, 256, 230);
+
+    // Subtitle Tag
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '700 36px "JetBrains Mono", monospace';
+    ctx.letterSpacing = '4px';
+    ctx.fillText(sub, 256, 360);
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.needsUpdate = true;
+    return texture;
+  }
+
   initCtaUniverse() {
     if (!this.ctaCanvas) return;
 
     this.ctaScene = new THREE.Scene();
     this.ctaCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
-    this.ctaCamera.position.z = 24;
+    this.ctaCamera.position.z = 28;
 
     this.ctaRenderer = new THREE.WebGLRenderer({
       canvas: this.ctaCanvas,
@@ -158,30 +205,74 @@ class ThreeUniverse {
     
     this.updateCtaSize();
 
-    // Metallic Torus Knot Geometry
-    const geometry = new THREE.TorusKnotGeometry(7, 2.2, 120, 16, 2, 3);
-    
-    // Wireframe glowing gold material
-    const wireMaterial = new THREE.MeshBasicMaterial({
-      color: 0xC9A84C,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.35
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    this.ctaScene.add(ambientLight);
+
+    const pointLight1 = new THREE.PointLight(0xC9A84C, 2.5, 50);
+    pointLight1.position.set(15, 15, 15);
+    this.ctaScene.add(pointLight1);
+
+    const pointLight2 = new THREE.PointLight(0x00F0FF, 2, 50);
+    pointLight2.position.set(-15, -15, 15);
+    this.ctaScene.add(pointLight2);
+
+    // 3D Orbit Group for Tools
+    this.toolsOrbitGroup = new THREE.Group();
+    this.ctaScene.add(this.toolsOrbitGroup);
+
+    this.toolMeshes = [];
+
+    // Tool 1: Premiere Pro (Pr)
+    const prTex = this.createToolTexture('Pr', 'PREMIERE PRO', ['#000030', '#0a0a20'], '#9999FF', '#9999FF');
+    // Tool 2: After Effects (Ae)
+    const aeTex = this.createToolTexture('Ae', 'AFTER EFFECTS', ['#1a0033', '#110022'], '#D291FF', '#D291FF');
+    // Tool 3: CapCut (CC)
+    const ccTex = this.createToolTexture('CC', 'CAPCUT PRO', ['#001a1f', '#000c0f'], '#00F0FF', '#00F0FF');
+    // Tool 4: 4K Master Video (4K)
+    const goldTex = this.createToolTexture('4K', 'ULTRA HD', ['#1f1805', '#0f0a00'], '#C9A84C', '#e6c875');
+
+    const toolConfigs = [
+      { texture: prTex, x: -11, y: 5, z: 0, rx: 0.1, ry: 0.3, speed: 0.009 },
+      { texture: aeTex, x: 11, y: 6, z: -2, rx: -0.2, ry: -0.3, speed: 0.008 },
+      { texture: ccTex, x: -9, y: -6, z: 2, rx: 0.3, ry: -0.2, speed: 0.011 },
+      { texture: goldTex, x: 10, y: -5, z: -1, rx: -0.1, ry: 0.2, speed: 0.01 }
+    ];
+
+    const boxGeom = new THREE.BoxGeometry(4.8, 4.8, 0.8);
+
+    toolConfigs.forEach((cfg) => {
+      const materials = [
+        new THREE.MeshStandardMaterial({ color: 0x111115, metalness: 0.8, roughness: 0.2 }), // right
+        new THREE.MeshStandardMaterial({ color: 0x111115, metalness: 0.8, roughness: 0.2 }), // left
+        new THREE.MeshStandardMaterial({ color: 0x111115, metalness: 0.8, roughness: 0.2 }), // top
+        new THREE.MeshStandardMaterial({ color: 0x111115, metalness: 0.8, roughness: 0.2 }), // bottom
+        new THREE.MeshStandardMaterial({ map: cfg.texture, roughness: 0.1, metalness: 0.3 }), // front
+        new THREE.MeshStandardMaterial({ map: cfg.texture, roughness: 0.1, metalness: 0.3 })  // back
+      ];
+
+      const mesh = new THREE.Mesh(boxGeom, materials);
+      mesh.position.set(cfg.x, cfg.y, cfg.z);
+      mesh.rotation.set(cfg.rx, cfg.ry, 0);
+
+      mesh.userData = {
+        baseX: cfg.x,
+        baseY: cfg.y,
+        baseZ: cfg.z,
+        rotSpeed: cfg.speed,
+        phase: Math.random() * Math.PI * 2
+      };
+
+      this.toolsOrbitGroup.add(mesh);
+      this.toolMeshes.push(mesh);
     });
 
-    this.ctaMesh = new THREE.Mesh(geometry, wireMaterial);
-    this.ctaScene.add(this.ctaMesh);
-
-    // Inner glowing sphere core
-    const innerGeom = new THREE.IcosahedronGeometry(4, 2);
-    const innerMat = new THREE.MeshBasicMaterial({
-      color: 0x00F0FF,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.25
-    });
-    this.ctaInnerMesh = new THREE.Mesh(innerGeom, innerMat);
-    this.ctaScene.add(this.ctaInnerMesh);
+    // Ambient floating ring around tools
+    const ringGeom = new THREE.TorusGeometry(14, 0.08, 16, 100);
+    const ringMat = new THREE.MeshBasicMaterial({ color: 0xC9A84C, transparent: true, opacity: 0.25 });
+    this.ctaRing = new THREE.Mesh(ringGeom, ringMat);
+    this.ctaRing.rotation.x = Math.PI / 3;
+    this.ctaScene.add(this.ctaRing);
 
     this.animateCta();
   }
@@ -203,16 +294,30 @@ class ThreeUniverse {
   animateCta() {
     requestAnimationFrame(() => this.animateCta());
 
-    if (this.ctaMesh && this.ctaInnerMesh) {
-      this.ctaMesh.rotation.x += 0.005;
-      this.ctaMesh.rotation.y += 0.008;
+    const time = performance.now() * 0.001;
 
-      this.ctaInnerMesh.rotation.x -= 0.008;
-      this.ctaInnerMesh.rotation.y -= 0.005;
+    // Orbit & Bobbing Animation for each 3D Tool
+    if (this.toolMeshes) {
+      this.toolMeshes.forEach((mesh, index) => {
+        const u = mesh.userData;
+        mesh.rotation.y += u.rotSpeed;
+        mesh.rotation.x = Math.sin(time + u.phase) * 0.2;
 
-      // Mouse influence
-      this.ctaMesh.rotation.y += (this.mouse.x * 0.0005);
-      this.ctaMesh.rotation.x += (this.mouse.y * 0.0005);
+        // Floating hover motion
+        mesh.position.y = u.baseY + Math.sin(time * 1.5 + u.phase) * 0.8;
+        mesh.position.x = u.baseX + Math.cos(time * 1.2 + u.phase) * 0.4;
+      });
+    }
+
+    if (this.ctaRing) {
+      this.ctaRing.rotation.z += 0.003;
+      this.ctaRing.rotation.y += 0.002;
+    }
+
+    // Mouse influence
+    if (this.toolsOrbitGroup) {
+      this.toolsOrbitGroup.rotation.y = (this.mouse.x * 0.0008);
+      this.toolsOrbitGroup.rotation.x = -(this.mouse.y * 0.0008);
     }
 
     if (this.ctaRenderer && this.ctaScene && this.ctaCamera) {
