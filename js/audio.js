@@ -1,25 +1,24 @@
 /* ============================================================
-   SYNTHESIZED WEB AUDIO API SOUND DESIGN ENGINE
+   SYNTHESIZED INTERACTIVE SOUND FX ENGINE
+   (Mouse Movement, Hover Micro-Pips & Mechanical Clicks)
    ============================================================ */
 
 class SoundEngine {
   constructor() {
     this.ctx = null;
-    this.isMuted = true;
-    this.ambientGain = null;
-    this.ambientOsc1 = null;
-    this.ambientOsc2 = null;
+    this.isMuted = false;
     this.isInitialized = false;
+    this.lastMoveTime = 0;
+    this.movePitch = 600;
 
     this.toggleBtn = document.getElementById('soundToggleBtn');
-    this.soundBars = document.getElementById('soundBars');
     this.soundLabel = document.getElementById('soundLabel');
 
     this.initEventListeners();
   }
 
   init() {
-    if (this.isInitialized) return;
+    if (this.isInitialized && this.ctx) return;
     try {
       const AudioContext = window.AudioContext || window.webkitAudioContext;
       this.ctx = new AudioContext();
@@ -31,95 +30,79 @@ class SoundEngine {
 
   initEventListeners() {
     if (this.toggleBtn) {
-      this.toggleBtn.addEventListener('click', () => this.toggleSound());
+      this.toggleBtn.classList.add('sound-active');
+      if (this.soundLabel) this.soundLabel.textContent = 'FX: ON';
+
+      this.toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.toggleSound();
+      });
     }
 
-    // Initialize audio context on first user interaction anywhere
+    // Auto-unlock audio context on first interaction
     const unlockAudio = () => {
       this.init();
       if (this.ctx && this.ctx.state === 'suspended') {
         this.ctx.resume();
       }
-      window.removeEventListener('click', unlockAudio);
+      window.removeEventListener('pointerdown', unlockAudio);
       window.removeEventListener('keydown', unlockAudio);
     };
 
-    window.addEventListener('click', unlockAudio);
+    window.addEventListener('pointerdown', unlockAudio);
     window.addEventListener('keydown', unlockAudio);
   }
 
   toggleSound() {
     this.init();
-    if (!this.ctx) return;
-
-    if (this.ctx.state === 'suspended') {
+    if (this.ctx && this.ctx.state === 'suspended') {
       this.ctx.resume();
     }
 
     this.isMuted = !this.isMuted;
 
     if (this.isMuted) {
-      this.stopAmbient();
       if (this.toggleBtn) this.toggleBtn.classList.remove('sound-active');
-      if (this.soundLabel) this.soundLabel.textContent = 'SOUND: OFF';
+      if (this.soundLabel) this.soundLabel.textContent = 'FX: MUTED';
     } else {
-      this.startAmbient();
-      this.playCameraClick();
       if (this.toggleBtn) this.toggleBtn.classList.add('sound-active');
-      if (this.soundLabel) this.soundLabel.textContent = 'SOUND: ON';
+      if (this.soundLabel) this.soundLabel.textContent = 'FX: ON';
+      this.playCameraClick();
     }
   }
 
-  // 1. Low Cinematic Sub Ambient Drone (Subtle 35mm projector room hum)
-  startAmbient() {
+  // 1. Mouse Movement Harmonic Sound FX (throttled subtly)
+  playMouseMoveFX(speed = 1) {
     if (this.isMuted || !this.ctx) return;
+    const now = Date.now();
+    if (now - this.lastMoveTime < 110) return; // Throttle to 9-10 ticks/sec max
+    this.lastMoveTime = now;
+
     try {
-      this.stopAmbient();
+      const audioNow = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
 
-      this.ambientGain = this.ctx.createGain();
-      this.ambientGain.gain.setValueAtTime(0.001, this.ctx.currentTime);
-      this.ambientGain.gain.exponentialRampToValueAtTime(0.035, this.ctx.currentTime + 2.5);
+      // Subtle dynamic frequency modulation (800Hz - 1400Hz)
+      this.movePitch = 800 + Math.sin(now * 0.005) * 400;
 
-      // Low frequency oscillator 1 (55Hz sub tone)
-      this.ambientOsc1 = this.ctx.createOscillator();
-      this.ambientOsc1.type = 'sine';
-      this.ambientOsc1.frequency.setValueAtTime(55, this.ctx.currentTime);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(this.movePitch, audioNow);
+      osc.frequency.exponentialRampToValueAtTime(this.movePitch * 1.2, audioNow + 0.025);
 
-      // Warm overtone oscillator 2 (110Hz)
-      this.ambientOsc2 = this.ctx.createOscillator();
-      this.ambientOsc2.type = 'triangle';
-      this.ambientOsc2.frequency.setValueAtTime(110, this.ctx.currentTime);
+      // Very subtle volume (0.015) for elegant high-end feel
+      gain.gain.setValueAtTime(0.018, audioNow);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioNow + 0.025);
 
-      // Lowpass filter for cinematic warmth
-      const filter = this.ctx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(220, this.ctx.currentTime);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
 
-      this.ambientOsc1.connect(filter);
-      this.ambientOsc2.connect(filter);
-      filter.connect(this.ambientGain);
-      this.ambientGain.connect(this.ctx.destination);
-
-      this.ambientOsc1.start();
-      this.ambientOsc2.start();
-    } catch (err) {
-      console.warn('Ambient drone error', err);
-    }
+      osc.start(audioNow);
+      osc.stop(audioNow + 0.03);
+    } catch (e) {}
   }
 
-  stopAmbient() {
-    if (this.ambientGain && this.ctx) {
-      try {
-        this.ambientGain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.5);
-        setTimeout(() => {
-          if (this.ambientOsc1) { this.ambientOsc1.stop(); this.ambientOsc1.disconnect(); }
-          if (this.ambientOsc2) { this.ambientOsc2.stop(); this.ambientOsc2.disconnect(); }
-        }, 500);
-      } catch (e) {}
-    }
-  }
-
-  // 2. Camera Shutter Mechanical Click (For button taps)
+  // 2. Tactile Mechanical Razor / Shutter Click (For Clicks)
   playCameraClick() {
     if (this.isMuted || !this.ctx) return;
     try {
@@ -128,10 +111,10 @@ class SoundEngine {
       const gain = this.ctx.createGain();
 
       osc.type = 'triangle';
-      osc.frequency.setValueAtTime(1200, now);
-      osc.frequency.exponentialRampToValueAtTime(160, now + 0.04);
+      osc.frequency.setValueAtTime(1400, now);
+      osc.frequency.exponentialRampToValueAtTime(180, now + 0.04);
 
-      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.setValueAtTime(0.18, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.045);
 
       osc.connect(gain);
@@ -140,34 +123,57 @@ class SoundEngine {
       osc.start(now);
       osc.stop(now + 0.05);
 
-      // Shutter release tap
+      // Secondary snap
       setTimeout(() => {
-        if (!this.ctx) return;
+        if (!this.ctx || this.isMuted) return;
         const now2 = this.ctx.currentTime;
         const osc2 = this.ctx.createOscillator();
         const gain2 = this.ctx.createGain();
 
         osc2.type = 'square';
-        osc2.frequency.setValueAtTime(800, now2);
-        osc2.frequency.exponentialRampToValueAtTime(220, now2 + 0.03);
+        osc2.frequency.setValueAtTime(900, now2);
+        osc2.frequency.exponentialRampToValueAtTime(240, now2 + 0.03);
 
-        gain2.gain.setValueAtTime(0.12, now2);
+        gain2.gain.setValueAtTime(0.1, now2);
         gain2.gain.exponentialRampToValueAtTime(0.001, now2 + 0.035);
 
         osc2.connect(gain2);
         gain2.connect(this.ctx.destination);
         osc2.start(now2);
         osc2.stop(now2 + 0.04);
-      }, 50);
+      }, 40);
     } catch (e) {}
   }
 
-  // 3. Cinematic Whoosh / Razor Cut Transition Sound
+  // 3. Hover Micro-Pip (For Interactive UI elements)
+  playPip(freq = 1600) {
+    if (this.isMuted || !this.ctx) return;
+    try {
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now);
+      osc.frequency.exponentialRampToValueAtTime(freq * 1.5, now + 0.03);
+
+      gain.gain.setValueAtTime(0.04, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.04);
+    } catch (e) {}
+  }
+
+  // 4. Whoosh (For major modal/reveal transitions)
   playWhoosh() {
     if (this.isMuted || !this.ctx) return;
     try {
       const now = this.ctx.currentTime;
-      const bufferSize = this.ctx.sampleRate * 0.3; // 300ms white noise
+      const bufferSize = this.ctx.sampleRate * 0.25;
       const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
       const output = buffer.getChannelData(0);
 
@@ -180,44 +186,22 @@ class SoundEngine {
 
       const filter = this.ctx.createBiquadFilter();
       filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(400, now);
-      filter.frequency.exponentialRampToValueAtTime(2800, now + 0.15);
-      filter.frequency.exponentialRampToValueAtTime(300, now + 0.3);
-      filter.Q.setValueAtTime(3, now);
+      filter.frequency.setValueAtTime(500, now);
+      filter.frequency.exponentialRampToValueAtTime(2400, now + 0.12);
+      filter.frequency.exponentialRampToValueAtTime(400, now + 0.25);
+      filter.Q.setValueAtTime(2.5, now);
 
       const gain = this.ctx.createGain();
       gain.gain.setValueAtTime(0.01, now);
-      gain.gain.exponentialRampToValueAtTime(0.18, now + 0.15);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+      gain.gain.exponentialRampToValueAtTime(0.12, now + 0.12);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
 
       whiteNoise.connect(filter);
       filter.connect(gain);
       gain.connect(this.ctx.destination);
 
       whiteNoise.start(now);
-      whiteNoise.stop(now + 0.3);
-    } catch (e) {}
-  }
-
-  // 4. Glitch / Digital Pip (For timeline tick & hover)
-  playPip(freq = 1800) {
-    if (this.isMuted || !this.ctx) return;
-    try {
-      const now = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, now);
-
-      gain.gain.setValueAtTime(0.05, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start(now);
-      osc.stop(now + 0.035);
+      whiteNoise.stop(now + 0.25);
     } catch (e) {}
   }
 }
