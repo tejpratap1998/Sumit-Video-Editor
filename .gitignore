@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Netlify build output
+.netlify/
