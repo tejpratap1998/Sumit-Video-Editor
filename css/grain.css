@@ -1,0 +1,180 @@
+/* ============================================================
+   FILM GRAIN, SCANLINES, ANAMORPHIC FLARES & CINEMATIC FX
+   ============================================================ */
+
+/* 1. Procedural Film Grain Overlay */
+.film-grain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9990;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+}
+
+/* 2. CRT Scanlines Effect */
+.crt-scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9989;
+  opacity: 0.035;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.7) 50%,
+    rgba(0, 0, 0, 0.7)
+  );
+  background-size: 100% 4px;
+}
+
+/* 3. Anamorphic Horizontal Light Streak */
+.anamorphic-streak {
+  position: fixed;
+  top: 35%;
+  left: -50%;
+  width: 200%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 240, 255, 0.0) 20%,
+    rgba(0, 240, 255, 0.35) 45%,
+    rgba(201, 168, 76, 0.5) 50%,
+    rgba(0, 240, 255, 0.35) 55%,
+    rgba(0, 240, 255, 0.0) 80%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 9988;
+  filter: blur(1.5px);
+  opacity: 0.35;
+  transform: rotate(-3deg);
+  animation: streakDrift 16s ease-in-out infinite alternate;
+}
+
+@keyframes streakDrift {
+  0% {
+    top: 25%;
+    opacity: 0.2;
+    transform: rotate(-4deg) translateY(0);
+  }
+  50% {
+    top: 55%;
+    opacity: 0.45;
+    transform: rotate(-1deg) translateY(20px);
+  }
+  100% {
+    top: 30%;
+    opacity: 0.25;
+    transform: rotate(-3deg) translateY(-10px);
+  }
+}
+
+/* 4. White Noise / Flash Cut Overlay */
+.flash-cut-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #ffffff;
+  pointer-events: none;
+  z-index: 99999;
+  opacity: 0;
+  transition: opacity 0.08s ease;
+}
+
+.flash-cut-overlay.trigger-flash {
+  opacity: 0.85;
+}
+
+/* 5. 35mm Projector Flicker Overlay */
+.loader-projector-flicker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, rgba(201, 168, 76, 0.15), transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+  animation: projectorFlicker 0.12s infinite;
+}
+
+@keyframes projectorFlicker {
+  0% { opacity: 0.15; }
+  25% { opacity: 0.05; }
+  50% { opacity: 0.22; }
+  75% { opacity: 0.08; }
+  100% { opacity: 0.18; }
+}
+
+/* 6. Film Sprocket Decorative Pattern */
+.film-strip-border {
+  position: relative;
+  width: 100%;
+  height: 18px;
+  background: #080808;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.film-strip-border .sprockets,
+.sprocket-row {
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.25) 30%, transparent 35%);
+  background-size: 24px 100%;
+  background-repeat: repeat-x;
+  background-position: center;
+  opacity: 0.45;
+}
+
+.film-strip-horizontal {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 14px;
+  background: #050505;
+  z-index: 10;
+  border-top: 1px solid rgba(201, 168, 76, 0.15);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+}
+
+.film-strip-horizontal.top {
+  top: 60px;
+}
+
+.film-strip-horizontal.bottom {
+  bottom: 0;
+}
+
+/* 7. Glitch Hover Effect for Links */
+@keyframes glitchRed {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(-1px, -1px); }
+  60% { transform: translate(2px, 0); }
+  80% { transform: translate(1px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitchCyan {
+  0% { transform: translate(0); }
+  20% { transform: translate(2px, -1px); }
+  40% { transform: translate(1px, 1px); }
+  60% { transform: translate(-2px, 0); }
+  80% { transform: translate(-1px, 2px); }
+  100% { transform: translate(0); }
+}
