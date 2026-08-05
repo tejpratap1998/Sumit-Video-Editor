@@ -6,7 +6,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // ------------------------------------------------------------
-  // 1. CUSTOM MAGNETIC CURSOR
+  // 1. CUSTOM MAGNETIC CURSOR & MOUSE SOUND FX
   // ------------------------------------------------------------
   const cursor = document.getElementById('customCursor');
   const cursorDot = cursor ? cursor.querySelector('.cursor-dot') : null;
@@ -20,18 +20,21 @@ document.addEventListener('DOMContentLoaded', () => {
   let ringX = mouseX;
   let ringY = mouseY;
 
-  if (cursor && window.innerWidth >= 992) {
-    window.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
+  // Track mouse movement and play subtle harmonic sound effect
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
 
+    if (window.soundEngine) {
+      window.soundEngine.playMouseMoveFX();
+    }
+  });
+
+  if (cursor && window.innerWidth >= 992) {
     const updateCursor = () => {
-      // Direct dot movement
       cursorX += (mouseX - cursorX) * 0.9;
       cursorY += (mouseY - cursorY) * 0.9;
 
-      // Smooth lerp ring movement
       ringX += (mouseX - ringX) * 0.15;
       ringY += (mouseY - ringY) * 0.15;
 
@@ -47,13 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     requestAnimationFrame(updateCursor);
 
-    // Cursor State Triggers
+    // Cursor State Triggers & Hover Sounds
     const addHoverTargets = () => {
       // 1. General interactive links and buttons
-      document.querySelectorAll('a, button, .magnetic-target').forEach((el) => {
+      document.querySelectorAll('a, button, .magnetic-target, .tool-pill, .service-card, .process-node-card').forEach((el) => {
         el.addEventListener('mouseenter', () => {
           cursor.classList.add('cursor-hover');
-          if (cursorLabel) cursorLabel.textContent = el.getAttribute('data-hover') || 'OPEN';
+          if (cursorLabel) cursorLabel.textContent = el.getAttribute('data-hover') || 'VIEW';
+          if (window.soundEngine) window.soundEngine.playPip(1400);
         });
         el.addEventListener('mouseleave', () => {
           cursor.classList.remove('cursor-hover');
@@ -65,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         el.addEventListener('mouseenter', () => {
           cursor.classList.add('cursor-play');
           cursor.classList.remove('cursor-hover');
+          if (window.soundEngine) window.soundEngine.playPip(1800);
         });
         el.addEventListener('mouseleave', () => {
           cursor.classList.remove('cursor-play');
@@ -95,14 +100,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ------------------------------------------------------------
-  // 3. BUTTON CLICK SOUND FX & RIPPLE EFFECT
+  // 3. GLOBAL CLICK SOUND FX & RIPPLE EFFECT
   // ------------------------------------------------------------
+  document.addEventListener('click', (e) => {
+    // Play tactile shutter click on any interactive click
+    const isInteractive = e.target.closest('button, a, .project-card, .tool-pill, .copyable, .speed-btn, .modal-close-btn');
+    if (isInteractive && window.soundEngine) {
+      window.soundEngine.playCameraClick();
+    }
+  });
+
   document.querySelectorAll('button, a.btn, .social-circle').forEach((btn) => {
     btn.addEventListener('click', (e) => {
-      if (window.soundEngine) {
-        window.soundEngine.playCameraClick();
-      }
-
       // Ripple animation
       const rect = btn.getBoundingClientRect();
       const circle = document.createElement('span');
