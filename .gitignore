@@ -12,3 +12,9 @@ Thumbs.db
 
 # Netlify build output
 .netlify/
+
+# Video files (>100MB exceed GitHub free tier limit)
+assets/videos/*.mp4
+assets/videos/*.mov
+assets/videos/*.avi
+assets/videos/*.mkv
