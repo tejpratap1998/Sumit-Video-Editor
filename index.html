@@ -446,276 +446,382 @@
       <!-- ============================================================
            SECTION 4: SIGNATURE REEL (HORIZONTAL SCROLL TIMELINE)
            ============================================================ -->
+      <!-- ============================================================
+           SECTION 4: 9:16 VERTICAL VIDEO SHOWCASE (4-COLUMN GRID)
+           ============================================================ -->
       <section class="showcase-section" id="showcase">
-        
-        <!-- Pinned Horizontal Wrapper -->
-        <div class="horizontal-scroll-container" id="horizontalScrollContainer">
+        <div class="container">
           
-          <!-- Top Sticky Timeline Scrub Bar -->
-          <div class="showcase-timeline-header">
-            <div class="container timeline-ruler-bar">
-              <div class="timeline-label-block">
-                <span class="tl-pulse"></span>
-                <span class="tl-title">TIMELINE SCRUBBER</span>
-                <span class="tl-sub">// PINNED SEQUENCE VIEW</span>
-              </div>
-              
-              <div class="timecode-ticks">
-                <span class="tick active">00:01:00</span>
-                <span class="tick-dash"></span>
-                <span class="tick">00:02:00</span>
-                <span class="tick-dash"></span>
-                <span class="tick">00:03:00</span>
-                <span class="tick-dash"></span>
-                <span class="tick">00:04:00</span>
-                <span class="tick-dash"></span>
-                <span class="tick">00:05:00</span>
-              </div>
+          <!-- Section Header Centered -->
+          <div class="section-header-centered">
+            <div class="section-tag center">
+              <span class="tag-number">02</span>
+              <span class="tag-line"></span>
+              <span class="tag-label">CURATED WORK</span>
+            </div>
+            <h2 class="section-title">FEATURED <span class="gold-gradient-text">VIDEO EDITS</span></h2>
+            <p class="section-subtitle">
+              High-converting social media reels, commercial ads, and motion graphics engineered to stop the thumb.
+            </p>
+          </div>
 
-              <div class="timeline-hint">
-                <i class="fa-solid fa-arrows-left-right"></i> SCROLL TO SCRUB
-              </div>
+          <!-- Category Filter Pill Switcher (Matching Reference) -->
+          <div class="video-filter-pill-container" id="videoFilterContainer">
+            <div class="filter-pills-track" role="tablist" aria-label="Video Categories">
+              <button class="filter-pill active" data-filter="all" role="tab" aria-selected="true" type="button">
+                <span class="pill-icon"><i class="fa-solid fa-film"></i></span>
+                <span class="pill-text">All Edits</span>
+                <span class="pill-count">8</span>
+              </button>
+              <button class="filter-pill" data-filter="social" role="tab" aria-selected="false" type="button">
+                <span class="pill-icon"><i class="fa-solid fa-mobile-screen"></i></span>
+                <span class="pill-text">Social Media</span>
+                <span class="pill-count">4</span>
+              </button>
+              <button class="filter-pill" data-filter="graphics" role="tab" aria-selected="false" type="button">
+                <span class="pill-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+                <span class="pill-text">Graphics &amp; Carousels</span>
+                <span class="pill-count">2</span>
+              </button>
+              <button class="filter-pill" data-filter="commercial" role="tab" aria-selected="false" type="button">
+                <span class="pill-icon"><i class="fa-solid fa-clapperboard"></i></span>
+                <span class="pill-text">Commercials</span>
+                <span class="pill-count">2</span>
+              </button>
             </div>
           </div>
 
-          <!-- Film Strip Perforations Top -->
-          <div class="film-strip-horizontal top" aria-hidden="true">
-            <div class="sprocket-row"></div>
-          </div>
-
-          <!-- Horizontal Cards Track -->
-          <div class="horizontal-track" id="horizontalTrack">
+          <!-- 4-Column 9:16 Vertical Video Grid -->
+          <div class="video-showcase-grid" id="videoShowcaseGrid">
             
-            <!-- INTRO SLIDE -->
-            <div class="project-card intro-card glass-panel">
-              <div class="intro-card-inner">
-                <div class="section-tag">
-                  <span class="tag-number">02</span>
-                  <span class="tag-line"></span>
-                  <span class="tag-label">PORTFOLIO SHOWCASE</span>
-                </div>
-                <h2 class="intro-title">SIGNATURE<br/><span class="gold-gradient-text">SHOWREEL</span></h2>
-                <p class="intro-desc">
-                  Explore selected video edits optimized for retention, pacing, and visual storytelling across formats.
-                </p>
-                <div class="scrub-cta">
-                  <span>SWIPE / SCROLL RIGHT</span>
-                  <i class="fa-solid fa-arrow-right-long pulse-arrow"></i>
-                </div>
-              </div>
-            </div>
-
-            <!-- PROJECT 1: High-Retention Viral Reel -->
-            <article class="project-card glass-panel magnetic-target" data-project="01" data-title="High-Retention Viral Reel" data-category="SHORT FORM / INSTAGRAM &amp; TIKTOK" data-tools="Premiere Pro + CapCut Pro" data-retention="+88% Avg Watch Time" data-summary="Fast-paced hook architecture with kinetic subtitles, micro-sound design, and dynamic whip transitions designed to stop the thumb on feed.">
-              <div class="card-gold-edge"></div>
-              
-              <div class="card-media-wrapper">
-                <div class="card-video-mockup v-reel">
-                  <div class="video-ambient-glow reel-glow-1"></div>
-                  <!-- Visual canvas art simulation -->
-                  <div class="media-art-frame reel-art-1">
-                    <div class="art-gradient"></div>
-                    <div class="art-elements">
-                      <span class="badge-9-16">9:16 VERTICAL</span>
-                      <div class="kinetic-text-preview">VIRAL HOOKS</div>
-                      <div class="sub-wave-bars"><span></span><span></span><span></span><span></span></div>
-                    </div>
+            <!-- VIDEO CARD 1: Social Media (Lawn Care / Talking Head) -->
+            <article class="vertical-video-card glass-panel magnetic-target" data-category="social" data-project="01" data-title="Lawn Care &amp; Home Services Hook" data-tools="Premiere Pro + CapCut Pro" data-retention="1.4M+ Views · 89% Retention" data-summary="High-converting local business hook architecture with dynamic kinetic subtitles, natural pacing, and crystal clear Foley audio design.">
+              <div class="card-video-canvas v-thumb-1">
+                <div class="video-ambient-glow glow-gold"></div>
+                
+                <!-- Simulated Presenter Art & Visual Background -->
+                <div class="video-bg-art art-presenter-1">
+                  <div class="scene-truck-bg"></div>
+                  <div class="presenter-figure">
+                    <div class="presenter-glow"></div>
+                    <div class="presenter-badge-shirt">716 LAWN</div>
                   </div>
+                  <div class="kinetic-caption-chip">STOP LOSING LAWN CLIENTS</div>
                 </div>
 
-                <div class="play-btn-circle" role="button" aria-label="Play High Retention Reel">
+                <!-- Top Floating Elements -->
+                <div class="card-top-bar">
+                  <span class="video-card-badge">SOCIAL MEDIA</span>
+                  <button class="video-card-sound-btn" type="button" aria-label="Toggle Sound">
+                    <i class="fa-solid fa-volume-xmark"></i>
+                  </button>
+                </div>
+
+                <div class="video-client-branding">
+                  <span class="client-logo-pill"><i class="fa-solid fa-leaf"></i> 716 LAWN CARE</span>
+                </div>
+
+                <!-- Center Circular Play Button -->
+                <div class="video-card-play-btn" role="button" aria-label="Play Lawn Care Hook Video">
                   <i class="fa-solid fa-play"></i>
-                  <span class="play-wave"></span>
+                  <span class="play-wave-ring"></span>
                 </div>
 
-                <div class="card-badge">01 // RETENTION REEL</div>
-              </div>
-
-              <div class="card-content">
-                <div class="card-meta">
-                  <span class="meta-tag gold">SHORT-FORM REEL</span>
-                  <span class="meta-tc">00:00:30</span>
-                </div>
-                <h3 class="card-title">HIGH-RETENTION VIRAL REEL</h3>
-                <p class="card-desc">
-                  Hook pacing psychology and hyper-dynamic sound cues that boosted client retention by 85%.
-                </p>
-                <div class="card-footer-metrics">
-                  <span class="metric-item"><i class="fa-solid fa-arrow-trend-up gold"></i> 1.2M+ Views</span>
-                  <span class="metric-item"><i class="fa-solid fa-clock cyan"></i> 88% Retention</span>
+                <!-- Bottom Metadata Overlay -->
+                <div class="video-card-meta-overlay">
+                  <div class="meta-niche-tag">LOCAL BUSINESS HOOK</div>
+                  <h3 class="video-card-title">LAWN CARE PROMO REEL</h3>
+                  <div class="video-card-metrics">
+                    <span class="v-metric"><i class="fa-solid fa-eye gold"></i> 1.4M Views</span>
+                    <span class="v-metric"><i class="fa-solid fa-chart-line cyan"></i> 89% Retention</span>
+                  </div>
                 </div>
               </div>
             </article>
 
-            <!-- PROJECT 2: Brand Promo Commercial -->
-            <article class="project-card glass-panel magnetic-target" data-project="02" data-title="Cinematic Brand Commercial" data-category="COMMERCIAL / FASHION &amp; TECH" data-tools="Premiere Pro + After Effects" data-retention="Cinemascope 2.39:1" data-summary="Luxury aesthetic with moody anamorphic color grade, 3D typography integration, and rhythm-synced sound design for premium brand positioning.">
-              <div class="card-gold-edge"></div>
-              
-              <div class="card-media-wrapper">
-                <div class="card-video-mockup v-brand">
-                  <div class="video-ambient-glow reel-glow-2"></div>
-                  <div class="media-art-frame reel-art-2">
-                    <div class="art-gradient"></div>
-                    <div class="art-elements">
-                      <span class="badge-9-16">16:9 CINEMASCOPE</span>
-                      <div class="kinetic-text-preview">ELEVATED LUXURY</div>
-                      <div class="sub-wave-bars"><span></span><span></span><span></span><span></span></div>
-                    </div>
+            <!-- VIDEO CARD 2: Social Media (Landscaping Transformation) -->
+            <article class="vertical-video-card glass-panel magnetic-target" data-category="social" data-project="02" data-title="Hardscape Transformation Reel" data-tools="Premiere Pro + After Effects" data-retention="820K+ Views · 92% Watch Time" data-summary="Fast-cut before &amp; after beat synchronization, motion tracked callouts, and punchy bass drops for luxury hardscape contractor.">
+              <div class="card-video-canvas v-thumb-2">
+                <div class="video-ambient-glow glow-cyan"></div>
+
+                <div class="video-bg-art art-hardscape-2">
+                  <div class="cinematic-grid-mask"></div>
+                  <div class="brand-hero-emblem">
+                    <i class="fa-solid fa-mountain-sun gold"></i>
+                    <span>AJ LANDSCAPING</span>
                   </div>
+                  <div class="kinetic-caption-chip cyan-chip">48-HOUR BACKYARD BUILD</div>
                 </div>
 
-                <div class="play-btn-circle" role="button" aria-label="Play Brand Promo">
+                <div class="card-top-bar">
+                  <span class="video-card-badge">SOCIAL MEDIA</span>
+                  <button class="video-card-sound-btn" type="button" aria-label="Toggle Sound">
+                    <i class="fa-solid fa-volume-xmark"></i>
+                  </button>
+                </div>
+
+                <div class="video-client-branding">
+                  <span class="client-logo-pill"><i class="fa-solid fa-tree"></i> AJ LANDSCAPING</span>
+                </div>
+
+                <div class="video-card-play-btn" role="button" aria-label="Play Hardscape Transformation Video">
                   <i class="fa-solid fa-play"></i>
-                  <span class="play-wave"></span>
+                  <span class="play-wave-ring"></span>
                 </div>
 
-                <div class="card-badge">02 // BRAND PROMO</div>
-              </div>
-
-              <div class="card-content">
-                <div class="card-meta">
-                  <span class="meta-tag cyan">BRAND COMMERCIAL</span>
-                  <span class="meta-tc">00:01:15</span>
-                </div>
-                <h3 class="card-title">LUXURY BRAND PROMO</h3>
-                <p class="card-desc">
-                  High-octane commercial edit for fashion &amp; tech brands with custom film grain and tonal grading.
-                </p>
-                <div class="card-footer-metrics">
-                  <span class="metric-item"><i class="fa-solid fa-eye gold"></i> Brand Elevation</span>
-                  <span class="metric-item"><i class="fa-solid fa-sliders cyan"></i> Custom LUT Grade</span>
+                <div class="video-card-meta-overlay">
+                  <div class="meta-niche-tag">TRANSFORMATION REEL</div>
+                  <h3 class="video-card-title">LUXURY PATIO MAKEOVER</h3>
+                  <div class="video-card-metrics">
+                    <span class="v-metric"><i class="fa-solid fa-eye gold"></i> 820K Views</span>
+                    <span class="v-metric"><i class="fa-solid fa-bolt cyan"></i> 92% Watch Time</span>
+                  </div>
                 </div>
               </div>
             </article>
 
-            <!-- PROJECT 3: YouTube Story & Documentary Edit -->
-            <article class="project-card glass-panel magnetic-target" data-project="03" data-title="YouTube Documentary Story Edit" data-category="LONG FORM / YOUTUBE NARRATIVE" data-tools="Premiere Pro + After Effects" data-retention="14:30 Duration" data-summary="Documentary pacing with custom archival visual treatments, sound design layers, and retention graph optimization for 500K+ subscriber channels.">
-              <div class="card-gold-edge"></div>
-              
-              <div class="card-media-wrapper">
-                <div class="card-video-mockup v-yt">
-                  <div class="video-ambient-glow reel-glow-3"></div>
-                  <div class="media-art-frame reel-art-3">
-                    <div class="art-gradient"></div>
-                    <div class="art-elements">
-                      <span class="badge-9-16">16:9 4K NARRATIVE</span>
-                      <div class="kinetic-text-preview">DEEP NARRATIVE</div>
-                      <div class="sub-wave-bars"><span></span><span></span><span></span><span></span></div>
-                    </div>
-                  </div>
+            <!-- VIDEO CARD 3: Social Media (Excavation & Build Time-Lapse) -->
+            <article class="vertical-video-card glass-panel magnetic-target" data-category="social" data-project="03" data-title="Backyard Excavation Time-Lapse" data-tools="Premiere Pro + Sound Design" data-retention="2.1M+ Views · 94% Retention" data-summary="Hypnotic speed-ramped excavation with rhythmic Foley audio design, whip pans, and punch-in camera zooms.">
+              <div class="card-video-canvas v-thumb-3">
+                <div class="video-ambient-glow glow-gold"></div>
+
+                <div class="video-bg-art art-excavation-3">
+                  <div class="patio-fence-art"></div>
+                  <div class="soil-track-lines"></div>
+                  <div class="kinetic-caption-chip gold-chip">DAY 1 VS DAY 5 FINISH</div>
                 </div>
 
-                <div class="play-btn-circle" role="button" aria-label="Play YouTube Documentary">
+                <div class="card-top-bar">
+                  <span class="video-card-badge">SOCIAL MEDIA</span>
+                  <button class="video-card-sound-btn" type="button" aria-label="Toggle Sound">
+                    <i class="fa-solid fa-volume-xmark"></i>
+                  </button>
+                </div>
+
+                <div class="video-client-branding">
+                  <span class="client-logo-pill"><i class="fa-solid fa-hammer"></i> TERRA CRAFT</span>
+                </div>
+
+                <div class="video-card-play-btn" role="button" aria-label="Play Excavation Time-Lapse Video">
                   <i class="fa-solid fa-play"></i>
-                  <span class="play-wave"></span>
+                  <span class="play-wave-ring"></span>
                 </div>
 
-                <div class="card-badge">03 // YOUTUBE STORY</div>
-              </div>
-
-              <div class="card-content">
-                <div class="card-meta">
-                  <span class="meta-tag gold">YOUTUBE DOCUMENTARY</span>
-                  <span class="meta-tc">00:14:30</span>
-                </div>
-                <h3 class="card-title">YOUTUBE STORY EDIT</h3>
-                <p class="card-desc">
-                  Structured, engaging narrative built to maximize Average View Duration and viewer loyalty.
-                </p>
-                <div class="card-footer-metrics">
-                  <span class="metric-item"><i class="fa-solid fa-chart-line gold"></i> High AVD</span>
-                  <span class="metric-item"><i class="fa-solid fa-layer-group cyan"></i> Multi-Track SFX</span>
+                <div class="video-card-meta-overlay">
+                  <div class="meta-niche-tag">TIME-LAPSE &amp; ASMR</div>
+                  <h3 class="video-card-title">BACKYARD TIME-LAPSE</h3>
+                  <div class="video-card-metrics">
+                    <span class="v-metric"><i class="fa-solid fa-eye gold"></i> 2.1M Views</span>
+                    <span class="v-metric"><i class="fa-solid fa-fire cyan"></i> 94% Retention</span>
+                  </div>
                 </div>
               </div>
             </article>
 
-            <!-- PROJECT 4: 3D Product Launch Video -->
-            <article class="project-card glass-panel magnetic-target" data-project="04" data-title="Product Launch Kinetic Edit" data-category="MOTION DESIGN / PRODUCT LAUNCH" data-tools="After Effects + Premiere Pro" data-retention="4K 60FPS" data-summary="Kinetic typography, seamless 3D renders, fast cuts, and futuristic glitch transitions crafted for high-impact tech product launches.">
-              <div class="card-gold-edge"></div>
-              
-              <div class="card-media-wrapper">
-                <div class="card-video-mockup v-product">
-                  <div class="video-ambient-glow reel-glow-4"></div>
-                  <div class="media-art-frame reel-art-4">
-                    <div class="art-gradient"></div>
-                    <div class="art-elements">
-                      <span class="badge-9-16">TECH SHOWCASE</span>
-                      <div class="kinetic-text-preview">KINETIC 3D VFX</div>
-                      <div class="sub-wave-bars"><span></span><span></span><span></span><span></span></div>
-                    </div>
-                  </div>
+            <!-- VIDEO CARD 4: Social Media (Garden Trim ASMR) -->
+            <article class="vertical-video-card glass-panel magnetic-target" data-category="social" data-project="04" data-title="Precision Hedge Trim ASMR" data-tools="Premiere Pro + CapCut Pro" data-retention="1.8M+ Views · 88% Retention" data-summary="Macro visual pacing, crisp audio textures, and satisfying scissor cuts that keep viewers glued until the final frame.">
+              <div class="card-video-canvas v-thumb-4">
+                <div class="video-ambient-glow glow-cyan"></div>
+
+                <div class="video-bg-art art-hedge-4">
+                  <div class="foliage-green-scene"></div>
+                  <div class="macro-lines"></div>
+                  <div class="kinetic-caption-chip">SATISFYING TRIM ASMR</div>
                 </div>
 
-                <div class="play-btn-circle" role="button" aria-label="Play Product Launch Video">
+                <div class="card-top-bar">
+                  <span class="video-card-badge">SOCIAL MEDIA</span>
+                  <button class="video-card-sound-btn" type="button" aria-label="Toggle Sound">
+                    <i class="fa-solid fa-volume-xmark"></i>
+                  </button>
+                </div>
+
+                <div class="video-client-branding">
+                  <span class="client-logo-pill"><i class="fa-solid fa-scissors"></i> EVERGREEN CARE</span>
+                </div>
+
+                <div class="video-card-play-btn" role="button" aria-label="Play Hedge Trim ASMR Video">
                   <i class="fa-solid fa-play"></i>
-                  <span class="play-wave"></span>
+                  <span class="play-wave-ring"></span>
                 </div>
 
-                <div class="card-badge">04 // PRODUCT LAUNCH</div>
-              </div>
-
-              <div class="card-content">
-                <div class="card-meta">
-                  <span class="meta-tag cyan">PRODUCT LAUNCH</span>
-                  <span class="meta-tc">00:00:45</span>
-                </div>
-                <h3 class="card-title">PRODUCT LAUNCH VIDEO</h3>
-                <p class="card-desc">
-                  Sleek motion graphics, kinetic typography, and pulse-raising sound design that converts viewers into buyers.
-                </p>
-                <div class="card-footer-metrics">
-                  <span class="metric-item"><i class="fa-solid fa-wand-magic-sparkles gold"></i> Motion Graphics</span>
-                  <span class="metric-item"><i class="fa-solid fa-bolt cyan"></i> High Energy</span>
+                <div class="video-card-meta-overlay">
+                  <div class="meta-niche-tag">SATISFYING ASMR</div>
+                  <h3 class="video-card-title">PRECISION HEDGE TRIM</h3>
+                  <div class="video-card-metrics">
+                    <span class="v-metric"><i class="fa-solid fa-eye gold"></i> 1.8M Views</span>
+                    <span class="v-metric"><i class="fa-solid fa-headphones cyan"></i> ASMR Audio</span>
+                  </div>
                 </div>
               </div>
             </article>
 
-            <!-- PROJECT 5: Social Media Campaign Suite -->
-            <article class="project-card glass-panel magnetic-target" data-project="05" data-title="Social Media Growth Campaign" data-category="SOCIAL SUITE / REELS &amp; ADS" data-tools="Premiere Pro + CapCut Pro" data-retention="Multi-Platform" data-summary="Omnichannel multi-ratio video pack engineered to dominate Instagram Reels, YouTube Shorts, and TikTok ads with scalable templates.">
-              <div class="card-gold-edge"></div>
-              
-              <div class="card-media-wrapper">
-                <div class="card-video-mockup v-social">
-                  <div class="video-ambient-glow reel-glow-5"></div>
-                  <div class="media-art-frame reel-art-5">
-                    <div class="art-gradient"></div>
-                    <div class="art-elements">
-                      <span class="badge-9-16">OMNICHANNEL SUITE</span>
-                      <div class="kinetic-text-preview">SOCIAL GROWTH</div>
-                      <div class="sub-wave-bars"><span></span><span></span><span></span><span></span></div>
-                    </div>
+            <!-- VIDEO CARD 5: Commercial (Streetwear Brand Drop) -->
+            <article class="vertical-video-card glass-panel magnetic-target" data-category="commercial" data-project="05" data-title="Luxury Streetwear Brand Drop" data-tools="Premiere Pro + After Effects" data-retention="950K+ Views · 87% Retention" data-summary="Moody anamorphic color grade, 3D typography integration, and rhythm-synced sound design for premium apparel drop.">
+              <div class="card-video-canvas v-thumb-5">
+                <div class="video-ambient-glow glow-gold"></div>
+
+                <div class="video-bg-art art-streetwear-5">
+                  <div class="neon-urban-backdrop"></div>
+                  <div class="kinetic-3d-text">VELOCE S24</div>
+                  <div class="kinetic-caption-chip gold-chip">LIMITED RUN // 100 PIECES</div>
+                </div>
+
+                <div class="card-top-bar">
+                  <span class="video-card-badge">COMMERCIAL</span>
+                  <button class="video-card-sound-btn" type="button" aria-label="Toggle Sound">
+                    <i class="fa-solid fa-volume-xmark"></i>
+                  </button>
+                </div>
+
+                <div class="video-client-branding">
+                  <span class="client-logo-pill"><i class="fa-solid fa-shirt"></i> VELOCE APPAREL</span>
+                </div>
+
+                <div class="video-card-play-btn" role="button" aria-label="Play Streetwear Commercial Video">
+                  <i class="fa-solid fa-play"></i>
+                  <span class="play-wave-ring"></span>
+                </div>
+
+                <div class="video-card-meta-overlay">
+                  <div class="meta-niche-tag">FASHION COMMERCIAL</div>
+                  <h3 class="video-card-title">LUXURY STREETWEAR DROP</h3>
+                  <div class="video-card-metrics">
+                    <span class="v-metric"><i class="fa-solid fa-eye gold"></i> 950K Views</span>
+                    <span class="v-metric"><i class="fa-solid fa-sliders cyan"></i> 35mm Film Grade</span>
                   </div>
                 </div>
-
-                <div class="play-btn-circle" role="button" aria-label="Play Social Media Campaign">
-                  <i class="fa-solid fa-play"></i>
-                  <span class="play-wave"></span>
-                </div>
-
-                <div class="card-badge">05 // SOCIAL CAMPAIGN</div>
               </div>
+            </article>
 
-              <div class="card-content">
-                <div class="card-meta">
-                  <span class="meta-tag gold">SOCIAL CAMPAIGN</span>
-                  <span class="meta-tc">00:02:00</span>
+            <!-- VIDEO CARD 6: Graphics & Carousels (3D VFX Product Launch) -->
+            <article class="vertical-video-card glass-panel magnetic-target" data-category="graphics" data-project="06" data-title="Kinetic 3D VFX Product Launch" data-tools="After Effects + Cinema 4D" data-retention="1.1M+ Views · 91% Retention" data-summary="Kinetic typography, holographic UI renders, fast cuts, and futuristic glitch transitions crafted for tech hardware release.">
+              <div class="card-video-canvas v-thumb-6">
+                <div class="video-ambient-glow glow-cyan"></div>
+
+                <div class="video-bg-art art-vfx-6">
+                  <div class="cyber-orb-center"></div>
+                  <div class="hologram-scan-lines"></div>
+                  <div class="kinetic-caption-chip cyan-chip">KINETIC 3D RENDER</div>
                 </div>
-                <h3 class="card-title">SOCIAL MEDIA CAMPAIGN</h3>
-                <p class="card-desc">
-                  Trend-aware, platform-optimized multi-format video asset suite delivering rapid audience growth.
-                </p>
-                <div class="card-footer-metrics">
-                  <span class="metric-item"><i class="fa-solid fa-users gold"></i> Growth Focused</span>
-                  <span class="metric-item"><i class="fa-solid fa-mobile-screen cyan"></i> Multi-Ratio</span>
+
+                <div class="card-top-bar">
+                  <span class="video-card-badge">GRAPHICS &amp; VFX</span>
+                  <button class="video-card-sound-btn" type="button" aria-label="Toggle Sound">
+                    <i class="fa-solid fa-volume-xmark"></i>
+                  </button>
+                </div>
+
+                <div class="video-client-branding">
+                  <span class="client-logo-pill"><i class="fa-solid fa-microchip"></i> NEXUS HARDWARE</span>
+                </div>
+
+                <div class="video-card-play-btn" role="button" aria-label="Play 3D Product Launch Video">
+                  <i class="fa-solid fa-play"></i>
+                  <span class="play-wave-ring"></span>
+                </div>
+
+                <div class="video-card-meta-overlay">
+                  <div class="meta-niche-tag">3D MOTION DESIGN</div>
+                  <h3 class="video-card-title">NEXUS PRO LAUNCH</h3>
+                  <div class="video-card-metrics">
+                    <span class="v-metric"><i class="fa-solid fa-eye gold"></i> 1.1M Views</span>
+                    <span class="v-metric"><i class="fa-solid fa-wand-magic-sparkles cyan"></i> 3D Particle VFX</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- VIDEO CARD 7: Commercial (Luxury Villa Tour) -->
+            <article class="vertical-video-card glass-panel magnetic-target" data-category="commercial" data-project="07" data-title="Ultra-Luxury Villa Tour" data-tools="Premiere Pro + Davinci Resolve" data-retention="650K+ Views · 86% Retention" data-summary="Golden hour Davinci Resolve color science, seamless FPV drone speed ramps, and high-end ambient soundscapes.">
+              <div class="card-video-canvas v-thumb-7">
+                <div class="video-ambient-glow glow-gold"></div>
+
+                <div class="video-bg-art art-villa-7">
+                  <div class="infinity-pool-reflection"></div>
+                  <div class="golden-hour-sun"></div>
+                  <div class="kinetic-caption-chip gold-chip">$12.5M PALM ESTATE</div>
+                </div>
+
+                <div class="card-top-bar">
+                  <span class="video-card-badge">COMMERCIAL</span>
+                  <button class="video-card-sound-btn" type="button" aria-label="Toggle Sound">
+                    <i class="fa-solid fa-volume-xmark"></i>
+                  </button>
+                </div>
+
+                <div class="video-client-branding">
+                  <span class="client-logo-pill"><i class="fa-solid fa-building"></i> ESTATE PRIME</span>
+                </div>
+
+                <div class="video-card-play-btn" role="button" aria-label="Play Luxury Villa Tour Video">
+                  <i class="fa-solid fa-play"></i>
+                  <span class="play-wave-ring"></span>
+                </div>
+
+                <div class="video-card-meta-overlay">
+                  <div class="meta-niche-tag">REAL ESTATE COMMERCIAL</div>
+                  <h3 class="video-card-title">LUXURY VILLA SHOWCASE</h3>
+                  <div class="video-card-metrics">
+                    <span class="v-metric"><i class="fa-solid fa-eye gold"></i> 650K Views</span>
+                    <span class="v-metric"><i class="fa-solid fa-sun cyan"></i> Golden Hour LUT</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- VIDEO CARD 8: Graphics & Carousels (SaaS Motion Explainer) -->
+            <article class="vertical-video-card glass-panel magnetic-target" data-category="graphics" data-project="08" data-title="SaaS Explainer Motion Graphics" data-tools="After Effects + Illustrator" data-retention="1.3M+ Views · 90% Retention" data-summary="Isometric UI vectors, kinetic workflow transitions, and high-energy narration sync crafted to drive software signups.">
+              <div class="card-video-canvas v-thumb-8">
+                <div class="video-ambient-glow glow-cyan"></div>
+
+                <div class="video-bg-art art-saas-8">
+                  <div class="isometric-grid-stage"></div>
+                  <div class="floating-ui-card"></div>
+                  <div class="kinetic-caption-chip cyan-chip">AUTOMATE IN 1-CLICK</div>
+                </div>
+
+                <div class="card-top-bar">
+                  <span class="video-card-badge">GRAPHICS &amp; VFX</span>
+                  <button class="video-card-sound-btn" type="button" aria-label="Toggle Sound">
+                    <i class="fa-solid fa-volume-xmark"></i>
+                  </button>
+                </div>
+
+                <div class="video-client-branding">
+                  <span class="client-logo-pill"><i class="fa-solid fa-code"></i> SYNAPSE AI</span>
+                </div>
+
+                <div class="video-card-play-btn" role="button" aria-label="Play SaaS Explainer Video">
+                  <i class="fa-solid fa-play"></i>
+                  <span class="play-wave-ring"></span>
+                </div>
+
+                <div class="video-card-meta-overlay">
+                  <div class="meta-niche-tag">SAAS EXPLAINER</div>
+                  <h3 class="video-card-title">SYNAPSE AI WORKFLOW</h3>
+                  <div class="video-card-metrics">
+                    <span class="v-metric"><i class="fa-solid fa-eye gold"></i> 1.3M Views</span>
+                    <span class="v-metric"><i class="fa-solid fa-chart-pie cyan"></i> High Conversion</span>
+                  </div>
                 </div>
               </div>
             </article>
 
           </div>
 
-          <!-- Film Strip Perforations Bottom -->
-          <div class="film-strip-horizontal bottom" aria-hidden="true">
-            <div class="sprocket-row"></div>
+          <!-- Bottom Showcase Call-to-Action Bar -->
+          <div class="showcase-bottom-cta">
+            <div class="cta-inner-glass">
+              <div class="cta-left-text">
+                <span class="cta-badge-live">● CUSTOM EDITING SUITE</span>
+                <h3 class="cta-heading">NEED VIRAL EDITS FOR YOUR BRAND OR CHANNEL?</h3>
+                <p class="cta-desc">Get tailored reel pacing, 3D motion graphics, and sound design tailored to your niche.</p>
+              </div>
+              <a href="https://wa.me/917626874637?text=Hi%20Sumit,%20I%20saw%20your%20video%20portfolio%20and%20I'd%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer" class="btn btn-gold ripple-btn">
+                <i class="fa-brands fa-whatsapp"></i> MESSAGE ON WHATSAPP
+              </a>
+            </div>
           </div>
 
         </div>

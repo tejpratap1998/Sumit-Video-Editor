@@ -229,6 +229,61 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ------------------------------------------------------------
+  // 6B. CATEGORY FILTER PILLS & VIDEO CARD SOUND TOGGLE
+  // ------------------------------------------------------------
+  const filterPills = document.querySelectorAll('.filter-pill');
+  const videoCards = document.querySelectorAll('.vertical-video-card');
+
+  if (filterPills.length > 0 && videoCards.length > 0) {
+    filterPills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        const filter = pill.getAttribute('data-filter');
+        
+        // Update active tab states
+        filterPills.forEach(p => {
+          p.classList.remove('active');
+          p.setAttribute('aria-selected', 'false');
+        });
+        pill.classList.add('active');
+        pill.setAttribute('aria-selected', 'true');
+
+        if (window.soundEngine) window.soundEngine.playPip(1500);
+
+        // Filter cards with smooth fade/scale
+        videoCards.forEach((card) => {
+          const category = card.getAttribute('data-category');
+          if (filter === 'all' || category === filter) {
+            card.classList.remove('card-filtered-out');
+            if (typeof gsap !== 'undefined') {
+              gsap.fromTo(card, { opacity: 0, scale: 0.94, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.45, ease: 'power2.out' });
+            }
+          } else {
+            card.classList.add('card-filtered-out');
+          }
+        });
+      });
+    });
+  }
+
+  // Video Card Sound Buttons
+  document.querySelectorAll('.video-card-sound-btn').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isUnmuted = btn.classList.toggle('unmuted');
+      const icon = btn.querySelector('i');
+      if (isUnmuted) {
+        if (icon) icon.className = 'fa-solid fa-volume-high';
+        if (window.soundEngine) window.soundEngine.playPip(2200);
+        showToast('Audio Unmuted for Preview');
+      } else {
+        if (icon) icon.className = 'fa-solid fa-volume-xmark';
+        if (window.soundEngine) window.soundEngine.playPip(1000);
+        showToast('Audio Muted');
+      }
+    });
+  });
+
+  // ------------------------------------------------------------
   // 7. THEME CONTROLLER (Dark / Light Mode Switcher & Sync)
   // ------------------------------------------------------------
   class ThemeManager {

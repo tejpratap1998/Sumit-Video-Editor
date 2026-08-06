@@ -42,8 +42,12 @@ class VideoModalController {
 
   initEvents() {
     // Open modal on project card click
-    document.querySelectorAll('.project-card[data-project]').forEach((card) => {
+    document.querySelectorAll('.vertical-video-card[data-project], .project-card[data-project]').forEach((card) => {
       card.addEventListener('click', (e) => {
+        // Prevent opening modal if clicking sound toggle button
+        if (e.target.closest('.video-card-sound-btn')) {
+          return;
+        }
         const title = card.getAttribute('data-title') || 'Project Showcase';
         const cat = card.getAttribute('data-category') || 'VIDEO EDIT';
         const tools = card.getAttribute('data-tools') || 'Premiere Pro';

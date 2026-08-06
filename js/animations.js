@@ -271,38 +271,43 @@ document.addEventListener('DOMContentLoaded', () => {
       }, '-=0.4');
     }
 
-    // B. Section 4: Signature Reel PINNED Horizontal Scroll
+    // B. Section 4: Vertical Video Showcase Grid Reveal & Pill Stagger
     const showcaseSection = document.getElementById('showcase');
-    const horizontalTrack = document.getElementById('horizontalTrack');
-    const scrollContainer = document.getElementById('horizontalScrollContainer');
+    const videoCards = gsap.utils.toArray('.vertical-video-card');
 
-    if (showcaseSection && horizontalTrack && window.innerWidth >= 992) {
-      const getScrollAmount = () => {
-        return -(horizontalTrack.scrollWidth - window.innerWidth + 120);
-      };
-
-      const horizontalTween = gsap.to(horizontalTrack, {
-        x: getScrollAmount,
-        ease: 'none',
+    if (showcaseSection && videoCards.length > 0) {
+      // Animate category filter pill bar
+      gsap.fromTo('.video-filter-pill-container', {
+        opacity: 0,
+        y: 30
+      }, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power3.out',
         scrollTrigger: {
-          trigger: showcaseSection,
-          pin: true,
-          scrub: 1,
-          start: 'top top',
-          end: () => `+=${horizontalTrack.scrollWidth}`,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            // Update timecode ticks based on progress
-            const ticks = document.querySelectorAll('.timecode-ticks .tick');
-            const activeIndex = Math.min(
-              ticks.length - 1,
-              Math.floor(self.progress * ticks.length)
-            );
-            ticks.forEach((tick, idx) => {
-              if (idx === activeIndex) tick.classList.add('active');
-              else tick.classList.remove('active');
-            });
-          }
+          trigger: '.video-filter-pill-container',
+          start: 'top 85%',
+          toggleActions: 'play none none none'
+        }
+      });
+
+      // Animate vertical video cards with responsive stagger
+      gsap.fromTo(videoCards, {
+        opacity: 0,
+        y: 50,
+        scale: 0.96
+      }, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.7,
+        stagger: 0.12,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '#videoShowcaseGrid',
+          start: 'top 80%',
+          toggleActions: 'play none none none'
         }
       });
     }
