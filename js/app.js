@@ -229,14 +229,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ------------------------------------------------------------
-  // 6B. CATEGORY FILTER PILLS & VIDEO CARD PLAYBACK / SOUND
+  // 6B. INSTANT IN-PLACE VIDEO PLAYBACK & CATEGORY FILTERS
   // ------------------------------------------------------------
   const filterPills = document.querySelectorAll('.filter-pill');
   const videoCards = document.querySelectorAll('.vertical-video-card');
 
-  // Video Card Loaded States (Autoplay disabled)
+  // Video Card In-Place Direct Playback Handler
   videoCards.forEach((card) => {
     const video = card.querySelector('.card-video-element');
+    const soundBtn = card.querySelector('.video-card-sound-btn');
     if (!video) return;
 
     video.addEventListener('loadeddata', () => {
@@ -245,6 +246,64 @@ document.addEventListener('DOMContentLoaded', () => {
 
     video.addEventListener('canplay', () => {
       video.classList.add('video-loaded');
+    });
+
+    const toggleVideoPlayback = (e) => {
+      // Don't trigger card toggle if user specifically clicked sound button
+      if (e && e.target && e.target.closest('.video-card-sound-btn')) {
+        return;
+      }
+
+      if (video.paused) {
+        // Pause all other video cards
+        videoCards.forEach((otherCard) => {
+          if (otherCard !== card) {
+            const otherVid = otherCard.querySelector('.card-video-element');
+            if (otherVid && !otherVid.paused) {
+              otherVid.pause();
+              otherCard.classList.remove('is-playing');
+            }
+          }
+        });
+
+        // Unmute and play with sound
+        video.muted = false;
+        if (soundBtn) {
+          soundBtn.classList.add('unmuted');
+          const icon = soundBtn.querySelector('i');
+          if (icon) icon.className = 'fa-solid fa-volume-high';
+        }
+
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            card.classList.add('is-playing');
+          }).catch(() => {
+            // Browser autoplay policy fallback (start muted if audio policy requires)
+            video.muted = true;
+            video.play().then(() => {
+              card.classList.add('is-playing');
+            }).catch(() => {});
+          });
+        }
+      } else {
+        video.pause();
+        card.classList.remove('is-playing');
+      }
+    };
+
+    card.addEventListener('click', toggleVideoPlayback);
+
+    video.addEventListener('play', () => {
+      card.classList.add('is-playing');
+    });
+
+    video.addEventListener('pause', () => {
+      card.classList.remove('is-playing');
+    });
+
+    video.addEventListener('ended', () => {
+      card.classList.remove('is-playing');
     });
   });
 
@@ -285,23 +344,23 @@ document.addEventListener('DOMContentLoaded', () => {
       e.stopPropagation();
       const card = btn.closest('.vertical-video-card');
       const video = card ? card.querySelector('.card-video-element') : null;
+      if (!video) return;
+
       const isUnmuted = btn.classList.toggle('unmuted');
       const icon = btn.querySelector('i');
 
       if (isUnmuted) {
         if (icon) icon.className = 'fa-solid fa-volume-high';
-        if (video) {
-          video.muted = false;
-          video.volume = 0.8;
+        video.muted = false;
+        video.volume = 1.0;
+        if (video.paused) {
           video.play().catch(() => {});
         }
         if (window.soundEngine) window.soundEngine.playPip(2200);
-        showToast('Audio Unmuted for Preview');
+        showToast('Audio Unmuted');
       } else {
         if (icon) icon.className = 'fa-solid fa-volume-xmark';
-        if (video) {
-          video.muted = true;
-        }
+        video.muted = true;
         if (window.soundEngine) window.soundEngine.playPip(1000);
         showToast('Audio Muted');
       }

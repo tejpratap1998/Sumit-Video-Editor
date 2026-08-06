@@ -45,10 +45,9 @@ class VideoModalController {
   }
 
   initEvents() {
-    // Open modal on project card click
-    document.querySelectorAll('.vertical-video-card[data-project], .project-card[data-project]').forEach((card) => {
+    // Open modal on project card click (vertical-video-card now plays in-place directly)
+    document.querySelectorAll('.project-card[data-project]:not(.vertical-video-card)').forEach((card) => {
       card.addEventListener('click', (e) => {
-        // Prevent opening modal if clicking sound toggle button
         if (e.target.closest('.video-card-sound-btn')) {
           return;
         }

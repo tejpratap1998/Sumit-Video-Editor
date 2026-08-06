@@ -1818,6 +1818,41 @@ img, video {
   }
 }
 
+/* Playing State (Instant In-Place Playback) */
+.vertical-video-card.is-playing .video-card-play-btn {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.8);
+}
+
+.vertical-video-card.is-playing:hover .video-card-play-btn {
+  opacity: 0.9;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1.05);
+  background: rgba(0, 0, 0, 0.75);
+  border-color: var(--gold-primary);
+  color: var(--gold-primary);
+}
+
+.vertical-video-card.is-playing .video-card-play-btn i {
+  margin-left: 0;
+}
+
+.vertical-video-card.is-playing .video-card-play-btn i::before {
+  content: "\f04c"; /* FontAwesome fa-pause */
+}
+
+.vertical-video-card.is-playing .play-wave-ring {
+  display: none;
+}
+
+.vertical-video-card.is-playing .card-video-canvas::before,
+.vertical-video-card.is-playing .card-video-canvas::after {
+  opacity: 0.5;
+  transition: opacity 0.35s ease;
+}
+
+
 /* Ambient Glows */
 .video-ambient-glow {
   position: absolute;
