@@ -221,4 +221,82 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // ------------------------------------------------------------
+  // 7. THEME CONTROLLER (Dark / Light Mode Switcher & Sync)
+  // ------------------------------------------------------------
+  class ThemeManager {
+    constructor() {
+      this.desktopToggleBtn = document.getElementById('themeToggleBtn');
+      this.mobileToggleBtn = document.getElementById('mobileThemeToggleBtn');
+      this.themeLabel = document.getElementById('themeLabel');
+      this.mobileThemeLabel = document.getElementById('mobileThemeLabel');
+
+      this.currentTheme = document.documentElement.getAttribute('data-theme') || 
+                          localStorage.getItem('sumit_portfolio_theme') || 
+                          'dark';
+
+      this.init();
+    }
+
+    init() {
+      this.applyTheme(this.currentTheme, false);
+
+      if (this.desktopToggleBtn) {
+        this.desktopToggleBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.toggleTheme();
+        });
+      }
+
+      if (this.mobileToggleBtn) {
+        this.mobileToggleBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.toggleTheme();
+        });
+      }
+
+      // Listen for system color-scheme changes if not manually set
+      window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('sumit_portfolio_theme')) {
+          this.applyTheme(e.matches ? 'light' : 'dark', true);
+        }
+      });
+    }
+
+    toggleTheme() {
+      const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+      this.applyTheme(newTheme, true);
+    }
+
+    applyTheme(theme, playFeedback = false) {
+      this.currentTheme = theme;
+      localStorage.setItem('sumit_portfolio_theme', theme);
+
+      if (theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        if (this.themeLabel) this.themeLabel.textContent = 'LIGHT';
+        if (this.mobileThemeLabel) this.mobileThemeLabel.textContent = 'LIGHT MODE';
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        if (this.themeLabel) this.themeLabel.textContent = 'DARK';
+        if (this.mobileThemeLabel) this.mobileThemeLabel.textContent = 'DARK MODE';
+      }
+
+      // Sync with Three.js 3D Universe
+      if (window.threeUniverse && typeof window.threeUniverse.setTheme === 'function') {
+        window.threeUniverse.setTheme(theme);
+      }
+
+      // Sound & tactile feedback
+      if (playFeedback && window.soundEngine) {
+        window.soundEngine.playPip(theme === 'light' ? 2400 : 1200);
+      }
+    }
+  }
+
+  // Initialize Theme Manager
+  window.themeManager = new ThemeManager();
+
 });
+
+

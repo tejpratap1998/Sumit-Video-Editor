@@ -32,6 +32,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+  <!-- Early Theme Initialization (Zero-Flash) -->
+  <script>
+    (function() {
+      try {
+        var savedTheme = localStorage.getItem('sumit_portfolio_theme');
+        var theme = savedTheme ? savedTheme : 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body class="loading-state">
 
@@ -171,8 +181,17 @@
         </ul>
       </nav>
 
-      <!-- Action Controls (Sound & WhatsApp CTA) -->
+      <!-- Action Controls (Theme Switch, Sound & WhatsApp CTA) -->
       <div class="header-actions">
+        <!-- Theme Mode Toggle (Light / Dark) -->
+        <button class="theme-toggle-btn magnetic-target" id="themeToggleBtn" type="button" aria-label="Toggle Light and Dark Mode" title="Toggle Light / Dark Mode">
+          <div class="theme-icon-track">
+            <i class="fa-solid fa-sun theme-icon sun-icon"></i>
+            <i class="fa-solid fa-moon theme-icon moon-icon"></i>
+          </div>
+          <span class="theme-label" id="themeLabel">LIGHT</span>
+        </button>
+
         <!-- Audio Sound Toggle -->
         <button class="sound-toggle-btn magnetic-target" id="soundToggleBtn" type="button" aria-label="Toggle Cinematic Sound" title="Toggle Sound FX">
           <div class="sound-bars" id="soundBars">
@@ -208,6 +227,17 @@
         <a href="#process" class="mobile-link"><span>04</span> EDITING WORKFLOW</a>
         <a href="#cta" class="mobile-link"><span>05</span> START A PROJECT</a>
       </nav>
+      <div class="mobile-drawer-controls">
+        <button class="theme-toggle-btn-mobile" id="mobileThemeToggleBtn" type="button" aria-label="Toggle Theme Mode">
+          <div class="mobile-theme-info">
+            <i class="fa-solid fa-circle-half-stroke mobile-theme-icon" id="mobileThemeIcon"></i>
+            <span class="mobile-theme-text">THEME: <strong id="mobileThemeLabel">DARK MODE</strong></span>
+          </div>
+          <div class="theme-switch-pill" id="mobileSwitchPill">
+            <span class="theme-switch-thumb"></span>
+          </div>
+        </button>
+      </div>
       <div class="mobile-drawer-footer">
         <a href="https://wa.me/917626874637" class="btn btn-gold btn-full">
           <i class="fa-brands fa-whatsapp"></i> MESSAGE ON WHATSAPP

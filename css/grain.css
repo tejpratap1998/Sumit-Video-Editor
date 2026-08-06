@@ -178,3 +178,30 @@
   80% { transform: translate(-1px, 2px); }
   100% { transform: translate(0); }
 }
+
+/* 8. Light Mode Cinematic Overlay Adaptations */
+[data-theme="light"] .film-grain-overlay {
+  opacity: 0.025;
+  mix-blend-mode: multiply;
+}
+
+[data-theme="light"] .crt-scanlines {
+  opacity: 0.012;
+}
+
+[data-theme="light"] .anamorphic-streak {
+  opacity: 0.18;
+}
+
+[data-theme="light"] .film-strip-horizontal,
+[data-theme="light"] .film-strip-border {
+  background: #E2E8F0;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .film-strip-border .sprockets,
+[data-theme="light"] .sprocket-row {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.25) 30%, transparent 35%);
+  opacity: 0.3;
+}
+

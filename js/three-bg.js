@@ -17,6 +17,10 @@ class ThreeUniverse {
     this.initCtaUniverse();
     this.initMouseEvents();
     this.initResizeHandler();
+
+    // Initialize with current active theme
+    const activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    this.setTheme(activeTheme);
   }
 
   // ------------------------------------------------------------
@@ -46,17 +50,17 @@ class ThreeUniverse {
     this.heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     // Particle Cloud (2,200 particles)
-    const particleCount = window.innerWidth < 768 ? 900 : 2200;
+    this.particleCount = window.innerWidth < 768 ? 900 : 2200;
     const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const colors = new Float32Array(particleCount * 3);
-    const sizes = new Float32Array(particleCount);
+    const positions = new Float32Array(this.particleCount * 3);
+    this.particleColors = new Float32Array(this.particleCount * 3);
+    const sizes = new Float32Array(this.particleCount);
 
     const goldColor = new THREE.Color(0xC9A84C);
     const cyanColor = new THREE.Color(0x00F0FF);
     const whiteColor = new THREE.Color(0xFFFFFF);
 
-    for (let i = 0; i < particleCount; i++) {
+    for (let i = 0; i < this.particleCount; i++) {
       const i3 = i * 3;
       positions[i3] = (Math.random() - 0.5) * 2000;
       positions[i3 + 1] = (Math.random() - 0.5) * 1400;
@@ -67,15 +71,15 @@ class ThreeUniverse {
       if (rand > 0.7) selectedColor = cyanColor;
       else if (rand > 0.6) selectedColor = whiteColor;
 
-      colors[i3] = selectedColor.r;
-      colors[i3 + 1] = selectedColor.g;
-      colors[i3 + 2] = selectedColor.b;
+      this.particleColors[i3] = selectedColor.r;
+      this.particleColors[i3 + 1] = selectedColor.g;
+      this.particleColors[i3 + 2] = selectedColor.b;
 
       sizes[i] = Math.random() * 4 + 1.5;
     }
 
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(this.particleColors, 3));
     geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
     // Glow particle texture
@@ -107,11 +111,11 @@ class ThreeUniverse {
     this.heroScene.add(this.heroParticles);
 
     // Subtle 3D Grid Floor
-    const gridHelper = new THREE.GridHelper(2400, 40, 0xC9A84C, 0x151620);
-    gridHelper.position.y = -450;
-    gridHelper.material.opacity = 0.18;
-    gridHelper.material.transparent = true;
-    this.heroScene.add(gridHelper);
+    this.gridHelper = new THREE.GridHelper(2400, 40, 0xC9A84C, 0x151620);
+    this.gridHelper.position.y = -450;
+    this.gridHelper.material.opacity = 0.18;
+    this.gridHelper.material.transparent = true;
+    this.heroScene.add(this.gridHelper);
 
     this.animateHero();
   }
@@ -206,16 +210,16 @@ class ThreeUniverse {
     this.updateCtaSize();
 
     // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
-    this.ctaScene.add(ambientLight);
+    this.ctaAmbientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    this.ctaScene.add(this.ctaAmbientLight);
 
-    const pointLight1 = new THREE.PointLight(0xC9A84C, 2.5, 50);
-    pointLight1.position.set(15, 15, 15);
-    this.ctaScene.add(pointLight1);
+    this.ctaPointLight1 = new THREE.PointLight(0xC9A84C, 2.5, 50);
+    this.ctaPointLight1.position.set(15, 15, 15);
+    this.ctaScene.add(this.ctaPointLight1);
 
-    const pointLight2 = new THREE.PointLight(0x00F0FF, 2, 50);
-    pointLight2.position.set(-15, -15, 15);
-    this.ctaScene.add(pointLight2);
+    this.ctaPointLight2 = new THREE.PointLight(0x00F0FF, 2, 50);
+    this.ctaPointLight2.position.set(-15, -15, 15);
+    this.ctaScene.add(this.ctaPointLight2);
 
     // 3D Orbit Group for Tools
     this.toolsOrbitGroup = new THREE.Group();
@@ -333,7 +337,61 @@ class ThreeUniverse {
   }
 
   // ------------------------------------------------------------
-  // 3. MOUSE & RESIZE HANDLERS
+  // 3. THEME ADAPTATION (Dynamic Dark <-> Light Transition)
+  // ------------------------------------------------------------
+  setTheme(themeName) {
+    const isLight = themeName === 'light';
+
+    // 1. Hero Scene Fog
+    if (this.heroScene) {
+      if (isLight) {
+        this.heroScene.fog = new THREE.FogExp2(0xF7F8FA, 0.0009);
+      } else {
+        this.heroScene.fog = new THREE.FogExp2(0x000000, 0.0012);
+      }
+    }
+
+    // 2. Hero Particles Colors & Materials
+    if (this.heroParticles && this.particleColors && this.particleCount) {
+      const goldColor = isLight ? new THREE.Color(0x9E770E) : new THREE.Color(0xC9A84C);
+      const cyanColor = isLight ? new THREE.Color(0x007799) : new THREE.Color(0x00F0FF);
+      const thirdColor = isLight ? new THREE.Color(0x475569) : new THREE.Color(0xFFFFFF);
+
+      for (let i = 0; i < this.particleCount; i++) {
+        const i3 = i * 3;
+        const rand = (i % 10) / 10;
+        let selectedColor = goldColor;
+        if (rand > 0.7) selectedColor = cyanColor;
+        else if (rand > 0.5) selectedColor = thirdColor;
+
+        this.particleColors[i3] = selectedColor.r;
+        this.particleColors[i3 + 1] = selectedColor.g;
+        this.particleColors[i3 + 2] = selectedColor.b;
+      }
+
+      this.heroParticles.geometry.attributes.color.needsUpdate = true;
+      if (this.heroParticles.material) {
+        this.heroParticles.material.opacity = isLight ? 0.65 : 0.75;
+      }
+    }
+
+    // 3. 3D Grid Helper
+    if (this.gridHelper && this.gridHelper.material) {
+      this.gridHelper.material.opacity = isLight ? 0.10 : 0.18;
+    }
+
+    // 4. CTA Universe Lighting & Torus Ring
+    if (this.ctaAmbientLight) {
+      this.ctaAmbientLight.intensity = isLight ? 1.25 : 0.85;
+    }
+    if (this.ctaRing && this.ctaRing.material) {
+      this.ctaRing.material.color.setHex(isLight ? 0x9E770E : 0xC9A84C);
+      this.ctaRing.material.opacity = isLight ? 0.35 : 0.25;
+    }
+  }
+
+  // ------------------------------------------------------------
+  // 4. MOUSE & RESIZE HANDLERS
   // ------------------------------------------------------------
   initMouseEvents() {
     window.addEventListener('mousemove', (e) => {
