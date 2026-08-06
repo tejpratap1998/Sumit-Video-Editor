@@ -229,10 +229,37 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ------------------------------------------------------------
-  // 6B. CATEGORY FILTER PILLS & VIDEO CARD SOUND TOGGLE
+  // 6B. CATEGORY FILTER PILLS & VIDEO CARD PLAYBACK / SOUND
   // ------------------------------------------------------------
   const filterPills = document.querySelectorAll('.filter-pill');
   const videoCards = document.querySelectorAll('.vertical-video-card');
+
+  // Video Card Hover Preview Handler
+  videoCards.forEach((card) => {
+    const video = card.querySelector('.card-video-element');
+    if (!video) return;
+
+    video.addEventListener('loadeddata', () => {
+      video.classList.add('video-loaded');
+    });
+
+    card.addEventListener('mouseenter', () => {
+      if (video.readyState >= 2 || video.src) {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            video.classList.add('video-playing');
+          }).catch(() => {});
+        }
+      }
+    });
+
+    card.addEventListener('mouseleave', () => {
+      video.pause();
+      video.currentTime = 0;
+      video.classList.remove('video-playing');
+    });
+  });
 
   if (filterPills.length > 0 && videoCards.length > 0) {
     filterPills.forEach((pill) => {
@@ -269,14 +296,25 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.video-card-sound-btn').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
+      const card = btn.closest('.vertical-video-card');
+      const video = card ? card.querySelector('.card-video-element') : null;
       const isUnmuted = btn.classList.toggle('unmuted');
       const icon = btn.querySelector('i');
+
       if (isUnmuted) {
         if (icon) icon.className = 'fa-solid fa-volume-high';
+        if (video) {
+          video.muted = false;
+          video.volume = 0.8;
+          video.play().catch(() => {});
+        }
         if (window.soundEngine) window.soundEngine.playPip(2200);
         showToast('Audio Unmuted for Preview');
       } else {
         if (icon) icon.className = 'fa-solid fa-volume-xmark';
+        if (video) {
+          video.muted = true;
+        }
         if (window.soundEngine) window.soundEngine.playPip(1000);
         showToast('Audio Muted');
       }

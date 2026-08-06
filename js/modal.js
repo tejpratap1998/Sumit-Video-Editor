@@ -1,5 +1,5 @@
 /* ============================================================
-   INTERACTIVE VIDEO MODAL & BEFORE/AFTER COLOR GRADE SLIDER
+   INTERACTIVE VIDEO MODAL & HTML5 PLAYER / COLOR GRADE SLIDER
    ============================================================ */
 
 class VideoModalController {
@@ -14,7 +14,10 @@ class VideoModalController {
     this.summaryEl = document.getElementById('modalProjectSummary');
     this.sceneTitleEl = document.getElementById('modalSceneTitle');
 
-    // Splitter elements
+    // Real Video Element
+    this.actualVideo = document.getElementById('modalActualVideo');
+
+    // Splitter elements (Grading Simulation Fallback)
     this.container = document.getElementById('colorGradeContainer');
     this.beforeLayer = document.getElementById('gradeBeforeLayer');
     this.handle = document.getElementById('gradeSplitterHandle');
@@ -31,11 +34,12 @@ class VideoModalController {
     this.speedBtns = document.querySelectorAll('.speed-btn');
 
     this.isPlaying = true;
-    this.currentTime = 12;
+    this.currentTime = 0;
     this.totalDuration = 30;
     this.speed = 1.0;
     this.isDraggingSplitter = false;
     this.timer = null;
+    this.hasRealVideo = false;
 
     this.initEvents();
   }
@@ -52,7 +56,8 @@ class VideoModalController {
         const cat = card.getAttribute('data-category') || 'VIDEO EDIT';
         const tools = card.getAttribute('data-tools') || 'Premiere Pro';
         const summary = card.getAttribute('data-summary') || 'High performance cinematic edit.';
-        this.open(title, cat, tools, summary);
+        const videoSrc = card.getAttribute('data-video-src') || '';
+        this.open(title, cat, tools, summary, videoSrc);
       });
     });
 
@@ -68,6 +73,38 @@ class VideoModalController {
         this.close();
       }
     });
+
+    // HTML5 Video Listeners
+    if (this.actualVideo) {
+      this.actualVideo.addEventListener('loadedmetadata', () => {
+        if (this.actualVideo.duration && !isNaN(this.actualVideo.duration)) {
+          this.totalDuration = this.actualVideo.duration;
+        }
+        this.hasRealVideo = true;
+        this.actualVideo.classList.add('video-active');
+        if (this.container) this.container.style.display = 'none';
+        this.updateTransportUI();
+      });
+
+      this.actualVideo.addEventListener('timeupdate', () => {
+        if (this.hasRealVideo) {
+          this.currentTime = this.actualVideo.currentTime;
+          this.updateTransportUI();
+        }
+      });
+
+      this.actualVideo.addEventListener('ended', () => {
+        this.isPlaying = false;
+        if (this.playPauseIcon) this.playPauseIcon.className = 'fa-solid fa-play';
+      });
+
+      this.actualVideo.addEventListener('error', () => {
+        // Fallback gracefully to color grading simulation
+        this.hasRealVideo = false;
+        this.actualVideo.classList.remove('video-active');
+        if (this.container) this.container.style.display = 'block';
+      });
+    }
 
     // Splitter drag handlers (Mouse & Touch)
     if (this.container) {
@@ -110,6 +147,12 @@ class VideoModalController {
     if (this.restartBtn) {
       this.restartBtn.addEventListener('click', () => {
         this.currentTime = 0;
+        if (this.hasRealVideo && this.actualVideo) {
+          this.actualVideo.currentTime = 0;
+          this.actualVideo.play().catch(() => {});
+          this.isPlaying = true;
+          if (this.playPauseIcon) this.playPauseIcon.className = 'fa-solid fa-pause';
+        }
         this.updateTransportUI();
         if (window.soundEngine) window.soundEngine.playCameraClick();
       });
@@ -120,6 +163,9 @@ class VideoModalController {
       this.scrubSlider.addEventListener('input', (e) => {
         const val = parseFloat(e.target.value);
         this.currentTime = (val / 100) * this.totalDuration;
+        if (this.hasRealVideo && this.actualVideo) {
+          this.actualVideo.currentTime = this.currentTime;
+        }
         this.updateTransportUI();
       });
     }
@@ -130,6 +176,9 @@ class VideoModalController {
         this.speedBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         this.speed = parseFloat(btn.getAttribute('data-speed')) || 1.0;
+        if (this.hasRealVideo && this.actualVideo) {
+          this.actualVideo.playbackRate = this.speed;
+        }
         if (window.soundEngine) window.soundEngine.playPip(1600);
       });
     });
@@ -158,7 +207,7 @@ class VideoModalController {
     this.handle.style.left = `${percentage}%`;
   }
 
-  open(title, cat, tools, summary) {
+  open(title, cat, tools, summary, videoSrc = '') {
     if (!this.modal) return;
     if (this.titleEl) this.titleEl.textContent = title;
     if (this.catEl) this.catEl.textContent = cat;
@@ -166,9 +215,35 @@ class VideoModalController {
     if (this.summaryEl) this.summaryEl.textContent = summary;
     if (this.sceneTitleEl) this.sceneTitleEl.textContent = `${title.toUpperCase()} — COLOR GRADE`;
 
-    this.modal.showModal();
+    this.currentTime = 0;
     this.isPlaying = true;
-    this.startPlaybackLoop();
+    if (this.playPauseIcon) this.playPauseIcon.className = 'fa-solid fa-pause';
+
+    if (videoSrc && this.actualVideo) {
+      this.actualVideo.src = videoSrc;
+      this.actualVideo.playbackRate = this.speed;
+      const playPromise = this.actualVideo.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          this.hasRealVideo = true;
+          this.actualVideo.classList.add('video-active');
+          if (this.container) this.container.style.display = 'none';
+        }).catch(() => {
+          // Playback error or no video file yet
+          this.hasRealVideo = false;
+          this.actualVideo.classList.remove('video-active');
+          if (this.container) this.container.style.display = 'block';
+          this.startPlaybackLoop();
+        });
+      }
+    } else {
+      this.hasRealVideo = false;
+      if (this.actualVideo) this.actualVideo.classList.remove('video-active');
+      if (this.container) this.container.style.display = 'block';
+      this.startPlaybackLoop();
+    }
+
+    this.modal.showModal();
 
     if (window.soundEngine) {
       window.soundEngine.playWhoosh();
@@ -177,6 +252,14 @@ class VideoModalController {
 
   close() {
     if (!this.modal) return;
+    if (this.actualVideo) {
+      this.actualVideo.pause();
+      this.actualVideo.src = '';
+      this.actualVideo.classList.remove('video-active');
+    }
+    if (this.container) {
+      this.container.style.display = 'block';
+    }
     this.modal.close();
     this.stopPlaybackLoop();
   }
@@ -186,13 +269,20 @@ class VideoModalController {
     if (this.playPauseIcon) {
       this.playPauseIcon.className = this.isPlaying ? 'fa-solid fa-pause' : 'fa-solid fa-play';
     }
+    if (this.hasRealVideo && this.actualVideo) {
+      if (this.isPlaying) {
+        this.actualVideo.play().catch(() => {});
+      } else {
+        this.actualVideo.pause();
+      }
+    }
     if (window.soundEngine) window.soundEngine.playPip(1400);
   }
 
   startPlaybackLoop() {
     this.stopPlaybackLoop();
     this.timer = setInterval(() => {
-      if (this.isPlaying) {
+      if (this.isPlaying && !this.hasRealVideo) {
         this.currentTime += 0.1 * this.speed;
         if (this.currentTime >= this.totalDuration) {
           this.currentTime = 0;
@@ -226,7 +316,7 @@ class VideoModalController {
       this.liveTcDisplay.textContent = `00:00:${curSec.toString().padStart(2, '0')}:${frStr}`;
     }
 
-    if (this.scrubSlider) {
+    if (this.scrubSlider && this.totalDuration > 0) {
       this.scrubSlider.value = (this.currentTime / this.totalDuration) * 100;
     }
   }
