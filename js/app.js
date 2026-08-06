@@ -112,22 +112,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('button, a.btn, .social-circle').forEach((btn) => {
     btn.addEventListener('click', (e) => {
-      // Ripple animation
+      // Safe ripple coordinates for mouse & touch
       const rect = btn.getBoundingClientRect();
-      const circle = document.createElement('span');
+      const clientX = (e.clientX !== undefined && e.clientX !== 0) ? e.clientX : (rect.left + rect.width / 2);
+      const clientY = (e.clientY !== undefined && e.clientY !== 0) ? e.clientY : (rect.top + rect.height / 2);
+
       const diameter = Math.max(rect.width, rect.height);
       const radius = diameter / 2;
+      const circle = document.createElement('span');
 
       circle.style.width = circle.style.height = `${diameter}px`;
-      circle.style.left = `${e.clientX - rect.left - radius}px`;
-      circle.style.top = `${e.clientY - rect.top - radius}px`;
+      circle.style.left = `${clientX - rect.left - radius}px`;
+      circle.style.top = `${clientY - rect.top - radius}px`;
       circle.classList.add('btn-ripple-effect');
 
       const existingRipple = btn.querySelector('.btn-ripple-effect');
       if (existingRipple) existingRipple.remove();
 
       btn.appendChild(circle);
-      setTimeout(() => circle.remove(), 600);
+      setTimeout(() => {
+        if (circle && circle.parentNode) {
+          circle.remove();
+        }
+      }, 600);
     });
   });
 
