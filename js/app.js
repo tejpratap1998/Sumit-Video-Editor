@@ -234,26 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const filterPills = document.querySelectorAll('.filter-pill');
   const videoCards = document.querySelectorAll('.vertical-video-card');
 
-  // Video Card In-Viewport & Hover Preview Handler
-  const videoObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      const video = entry.target.querySelector('.card-video-element');
-      if (!video) return;
-      if (entry.isIntersecting) {
-        video.muted = true;
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-          playPromise.then(() => {
-            video.classList.add('video-loaded', 'video-playing');
-          }).catch(() => {});
-        }
-      } else {
-        video.pause();
-        video.classList.remove('video-playing');
-      }
-    });
-  }, { threshold: 0.25 });
-
+  // Video Card Loaded States (Autoplay disabled)
   videoCards.forEach((card) => {
     const video = card.querySelector('.card-video-element');
     if (!video) return;
@@ -264,19 +245,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     video.addEventListener('canplay', () => {
       video.classList.add('video-loaded');
-    });
-
-    videoObserver.observe(card);
-
-    card.addEventListener('mouseenter', () => {
-      if (video.src) {
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-          playPromise.then(() => {
-            video.classList.add('video-loaded', 'video-playing');
-          }).catch(() => {});
-        }
-      }
     });
   });
 
