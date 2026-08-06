@@ -213,7 +213,6 @@ class VideoModalController {
     if (this.catEl) this.catEl.textContent = cat;
     if (this.toolsEl) this.toolsEl.textContent = tools;
     if (this.summaryEl) this.summaryEl.textContent = summary;
-    if (this.sceneTitleEl) this.sceneTitleEl.textContent = `${title.toUpperCase()} — COLOR GRADE`;
 
     this.currentTime = 0;
     this.isPlaying = true;
@@ -221,26 +220,11 @@ class VideoModalController {
 
     if (videoSrc && this.actualVideo) {
       this.actualVideo.src = videoSrc;
+      this.actualVideo.currentTime = 0;
       this.actualVideo.playbackRate = this.speed;
-      const playPromise = this.actualVideo.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          this.hasRealVideo = true;
-          this.actualVideo.classList.add('video-active');
-          if (this.container) this.container.style.display = 'none';
-        }).catch(() => {
-          // Playback error or no video file yet
-          this.hasRealVideo = false;
-          this.actualVideo.classList.remove('video-active');
-          if (this.container) this.container.style.display = 'block';
-          this.startPlaybackLoop();
-        });
-      }
-    } else {
-      this.hasRealVideo = false;
-      if (this.actualVideo) this.actualVideo.classList.remove('video-active');
-      if (this.container) this.container.style.display = 'block';
-      this.startPlaybackLoop();
+      this.hasRealVideo = true;
+      this.actualVideo.classList.add('video-active');
+      this.actualVideo.play().catch(() => {});
     }
 
     this.modal.showModal();
@@ -255,10 +239,6 @@ class VideoModalController {
     if (this.actualVideo) {
       this.actualVideo.pause();
       this.actualVideo.src = '';
-      this.actualVideo.classList.remove('video-active');
-    }
-    if (this.container) {
-      this.container.style.display = 'block';
     }
     this.modal.close();
     this.stopPlaybackLoop();

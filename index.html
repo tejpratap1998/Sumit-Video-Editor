@@ -465,58 +465,41 @@
             </p>
           </div>
 
-          <!-- Category Filter Pill Switcher (Matching Reference) -->
+          <!-- Category Filter Pill Switcher -->
           <div class="video-filter-pill-container" id="videoFilterContainer">
             <div class="filter-pills-track" role="tablist" aria-label="Video Categories">
               <button class="filter-pill active" data-filter="all" role="tab" aria-selected="true" type="button">
                 <span class="pill-icon"><i class="fa-solid fa-film"></i></span>
-                <span class="pill-text">All Edits</span>
-                <span class="pill-count">8</span>
-              </button>
-              <button class="filter-pill" data-filter="social" role="tab" aria-selected="false" type="button">
-                <span class="pill-icon"><i class="fa-solid fa-mobile-screen"></i></span>
-                <span class="pill-text">Social Media</span>
-                <span class="pill-count">4</span>
-              </button>
-              <button class="filter-pill" data-filter="graphics" role="tab" aria-selected="false" type="button">
-                <span class="pill-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
-                <span class="pill-text">Graphics &amp; Carousels</span>
+                <span class="pill-text">All Projects</span>
                 <span class="pill-count">2</span>
               </button>
               <button class="filter-pill" data-filter="commercial" role="tab" aria-selected="false" type="button">
                 <span class="pill-icon"><i class="fa-solid fa-clapperboard"></i></span>
-                <span class="pill-text">Commercials</span>
-                <span class="pill-count">2</span>
+                <span class="pill-text">Product Brand Reel</span>
+                <span class="pill-count">1</span>
+              </button>
+              <button class="filter-pill" data-filter="social" role="tab" aria-selected="false" type="button">
+                <span class="pill-icon"><i class="fa-solid fa-mobile-screen"></i></span>
+                <span class="pill-text">Educational Explainer</span>
+                <span class="pill-count">1</span>
               </button>
             </div>
           </div>
 
-          <!-- 4-Column 9:16 Vertical Video Grid -->
+          <!-- 2-Video Vertical Showcase Grid -->
           <div class="video-showcase-grid" id="videoShowcaseGrid">
             
-            <!-- VIDEO CARD 1: Social Media / Commercial (Pure Honey Brand Reel) -->
-            <article class="vertical-video-card glass-panel magnetic-target" data-category="social" data-project="01" data-video-src="assets/videos/honey video 1.mp4" data-title="Pure Honey Brand Story Reel" data-tools="Premiere Pro + After Effects" data-retention="1.4M+ Views · 89% Retention" data-summary="Cinematic visual storytelling, macro product shots, dynamic pacing, and crisp sound design crafted for an organic honey brand.">
+            <!-- VIDEO CARD 1: Honey Video 1 -->
+            <article class="vertical-video-card glass-panel magnetic-target" data-category="commercial" data-project="01" data-video-src="assets/videos/honey video 1.mp4" data-title="Pure Organic Honey Brand Story" data-tools="Premiere Pro + After Effects" data-summary="Cinematic visual storytelling, macro product shots, dynamic pacing, and crisp sound design crafted for an organic honey brand.">
               <div class="card-video-canvas v-thumb-1">
-                <!-- Actual Video Element (Playing honey video 1.mp4) -->
-                <video class="card-video-element" loop muted playsinline preload="metadata" data-src="assets/videos/honey video 1.mp4">
+                <!-- Direct HTML5 Video Player with controls & auto loop -->
+                <video class="card-video-element" controls playsinline loop muted autoplay preload="auto" src="assets/videos/honey video 1.mp4">
                   <source src="assets/videos/honey video 1.mp4" type="video/mp4">
                 </video>
 
-                <div class="video-ambient-glow glow-gold"></div>
-                
-                <!-- Fallback Presenter Art & Visual Background -->
-                <div class="video-bg-art art-presenter-1">
-                  <div class="scene-truck-bg"></div>
-                  <div class="presenter-figure">
-                    <div class="presenter-glow"></div>
-                    <div class="presenter-badge-shirt">ORGANIC</div>
-                  </div>
-                  <div class="kinetic-caption-chip">PURE ORGANIC HONEY</div>
-                </div>
-
                 <!-- Top Floating Elements -->
                 <div class="card-top-bar">
-                  <span class="video-card-badge">SOCIAL MEDIA</span>
+                  <span class="video-card-badge">BRAND REEL</span>
                   <button class="video-card-sound-btn" type="button" aria-label="Toggle Sound">
                     <i class="fa-solid fa-volume-xmark"></i>
                   </button>
@@ -536,34 +519,19 @@
                 <div class="video-card-meta-overlay">
                   <div class="meta-niche-tag">PRODUCT BRANDING REEL</div>
                   <h3 class="video-card-title">PURE HONEY STORY</h3>
-                  <div class="video-card-metrics">
-                    <span class="v-metric"><i class="fa-solid fa-eye gold"></i> 1.4M Views</span>
-                    <span class="v-metric"><i class="fa-solid fa-chart-line cyan"></i> 89% Retention</span>
-                  </div>
                 </div>
               </div>
             </article>
 
-            <!-- VIDEO CARD 2: Social Media (Types of Honey Educational Explainer) -->
-            <article class="vertical-video-card glass-panel magnetic-target" data-category="social" data-project="02" data-video-src="assets/videos/type of honey.mp4" data-title="Types of Honey Explainer" data-tools="Premiere Pro + Motion Graphics" data-retention="820K+ Views · 92% Watch Time" data-summary="Engaging educational short-form video with motion callouts, kinetic typography, and fast-paced color grading.">
+            <!-- VIDEO CARD 2: Type of Honey -->
+            <article class="vertical-video-card glass-panel magnetic-target" data-category="social" data-project="02" data-video-src="assets/videos/type of honey.mp4" data-title="Types of Honey Educational Reel" data-tools="Premiere Pro + Motion Graphics" data-summary="Engaging educational short-form video with motion callouts, kinetic typography, and fast-paced color grading.">
               <div class="card-video-canvas v-thumb-2">
-                <video class="card-video-element" loop muted playsinline preload="metadata" data-src="assets/videos/type of honey.mp4">
+                <video class="card-video-element" controls playsinline loop muted autoplay preload="auto" src="assets/videos/type of honey.mp4">
                   <source src="assets/videos/type of honey.mp4" type="video/mp4">
                 </video>
 
-                <div class="video-ambient-glow glow-cyan"></div>
-
-                <div class="video-bg-art art-hardscape-2">
-                  <div class="cinematic-grid-mask"></div>
-                  <div class="brand-hero-emblem">
-                    <i class="fa-solid fa-jar gold"></i>
-                    <span>HONEY GUIDE</span>
-                  </div>
-                  <div class="kinetic-caption-chip cyan-chip">TYPES OF HONEY</div>
-                </div>
-
                 <div class="card-top-bar">
-                  <span class="video-card-badge">SOCIAL MEDIA</span>
+                  <span class="video-card-badge">EDUCATIONAL REEL</span>
                   <button class="video-card-sound-btn" type="button" aria-label="Toggle Sound">
                     <i class="fa-solid fa-volume-xmark"></i>
                   </button>
@@ -581,262 +549,6 @@
                 <div class="video-card-meta-overlay">
                   <div class="meta-niche-tag">EDUCATIONAL EXPLAINER</div>
                   <h3 class="video-card-title">TYPES OF HONEY REEL</h3>
-                  <div class="video-card-metrics">
-                    <span class="v-metric"><i class="fa-solid fa-eye gold"></i> 820K Views</span>
-                    <span class="v-metric"><i class="fa-solid fa-bolt cyan"></i> 92% Watch Time</span>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <!-- VIDEO CARD 3: Social Media (Excavation & Build Time-Lapse) -->
-            <article class="vertical-video-card glass-panel magnetic-target" data-category="social" data-project="03" data-video-src="assets/videos/video3.mp4" data-title="Backyard Excavation Time-Lapse" data-tools="Premiere Pro + Sound Design" data-retention="2.1M+ Views · 94% Retention" data-summary="Hypnotic speed-ramped excavation with rhythmic Foley audio design, whip pans, and punch-in camera zooms.">
-              <div class="card-video-canvas v-thumb-3">
-                <video class="card-video-element" loop muted playsinline preload="metadata" data-src="assets/videos/video3.mp4">
-                  <source src="assets/videos/video3.mp4" type="video/mp4">
-                </video>
-
-                <div class="video-ambient-glow glow-gold"></div>
-
-                <div class="video-bg-art art-excavation-3">
-                  <div class="patio-fence-art"></div>
-                  <div class="soil-track-lines"></div>
-                  <div class="kinetic-caption-chip gold-chip">DAY 1 VS DAY 5 FINISH</div>
-                </div>
-
-                <div class="card-top-bar">
-                  <span class="video-card-badge">SOCIAL MEDIA</span>
-                  <button class="video-card-sound-btn" type="button" aria-label="Toggle Sound">
-                    <i class="fa-solid fa-volume-xmark"></i>
-                  </button>
-                </div>
-
-                <div class="video-client-branding">
-                  <span class="client-logo-pill"><i class="fa-solid fa-hammer"></i> TERRA CRAFT</span>
-                </div>
-
-                <div class="video-card-play-btn" role="button" aria-label="Play Excavation Time-Lapse Video">
-                  <i class="fa-solid fa-play"></i>
-                  <span class="play-wave-ring"></span>
-                </div>
-
-                <div class="video-card-meta-overlay">
-                  <div class="meta-niche-tag">TIME-LAPSE &amp; ASMR</div>
-                  <h3 class="video-card-title">BACKYARD TIME-LAPSE</h3>
-                  <div class="video-card-metrics">
-                    <span class="v-metric"><i class="fa-solid fa-eye gold"></i> 2.1M Views</span>
-                    <span class="v-metric"><i class="fa-solid fa-fire cyan"></i> 94% Retention</span>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <!-- VIDEO CARD 4: Social Media (Garden Trim ASMR) -->
-            <article class="vertical-video-card glass-panel magnetic-target" data-category="social" data-project="04" data-video-src="assets/videos/video4.mp4" data-title="Precision Hedge Trim ASMR" data-tools="Premiere Pro + CapCut Pro" data-retention="1.8M+ Views · 88% Retention" data-summary="Macro visual pacing, crisp audio textures, and satisfying scissor cuts that keep viewers glued until the final frame.">
-              <div class="card-video-canvas v-thumb-4">
-                <video class="card-video-element" loop muted playsinline preload="metadata" data-src="assets/videos/video4.mp4">
-                  <source src="assets/videos/video4.mp4" type="video/mp4">
-                </video>
-
-                <div class="video-ambient-glow glow-cyan"></div>
-
-                <div class="video-bg-art art-hedge-4">
-                  <div class="foliage-green-scene"></div>
-                  <div class="macro-lines"></div>
-                  <div class="kinetic-caption-chip">SATISFYING TRIM ASMR</div>
-                </div>
-
-                <div class="card-top-bar">
-                  <span class="video-card-badge">SOCIAL MEDIA</span>
-                  <button class="video-card-sound-btn" type="button" aria-label="Toggle Sound">
-                    <i class="fa-solid fa-volume-xmark"></i>
-                  </button>
-                </div>
-
-                <div class="video-client-branding">
-                  <span class="client-logo-pill"><i class="fa-solid fa-scissors"></i> EVERGREEN CARE</span>
-                </div>
-
-                <div class="video-card-play-btn" role="button" aria-label="Play Hedge Trim ASMR Video">
-                  <i class="fa-solid fa-play"></i>
-                  <span class="play-wave-ring"></span>
-                </div>
-
-                <div class="video-card-meta-overlay">
-                  <div class="meta-niche-tag">SATISFYING ASMR</div>
-                  <h3 class="video-card-title">PRECISION HEDGE TRIM</h3>
-                  <div class="video-card-metrics">
-                    <span class="v-metric"><i class="fa-solid fa-eye gold"></i> 1.8M Views</span>
-                    <span class="v-metric"><i class="fa-solid fa-headphones cyan"></i> ASMR Audio</span>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <!-- VIDEO CARD 5: Commercial (Streetwear Brand Drop) -->
-            <article class="vertical-video-card glass-panel magnetic-target" data-category="commercial" data-project="05" data-video-src="assets/videos/video5.mp4" data-title="Luxury Streetwear Brand Drop" data-tools="Premiere Pro + After Effects" data-retention="950K+ Views · 87% Retention" data-summary="Moody anamorphic color grade, 3D typography integration, and rhythm-synced sound design for premium apparel drop.">
-              <div class="card-video-canvas v-thumb-5">
-                <video class="card-video-element" loop muted playsinline preload="metadata" data-src="assets/videos/video5.mp4">
-                  <source src="assets/videos/video5.mp4" type="video/mp4">
-                </video>
-
-                <div class="video-ambient-glow glow-gold"></div>
-
-                <div class="video-bg-art art-streetwear-5">
-                  <div class="neon-urban-backdrop"></div>
-                  <div class="kinetic-3d-text">VELOCE S24</div>
-                  <div class="kinetic-caption-chip gold-chip">LIMITED RUN // 100 PIECES</div>
-                </div>
-
-                <div class="card-top-bar">
-                  <span class="video-card-badge">COMMERCIAL</span>
-                  <button class="video-card-sound-btn" type="button" aria-label="Toggle Sound">
-                    <i class="fa-solid fa-volume-xmark"></i>
-                  </button>
-                </div>
-
-                <div class="video-client-branding">
-                  <span class="client-logo-pill"><i class="fa-solid fa-shirt"></i> VELOCE APPAREL</span>
-                </div>
-
-                <div class="video-card-play-btn" role="button" aria-label="Play Streetwear Commercial Video">
-                  <i class="fa-solid fa-play"></i>
-                  <span class="play-wave-ring"></span>
-                </div>
-
-                <div class="video-card-meta-overlay">
-                  <div class="meta-niche-tag">FASHION COMMERCIAL</div>
-                  <h3 class="video-card-title">LUXURY STREETWEAR DROP</h3>
-                  <div class="video-card-metrics">
-                    <span class="v-metric"><i class="fa-solid fa-eye gold"></i> 950K Views</span>
-                    <span class="v-metric"><i class="fa-solid fa-sliders cyan"></i> 35mm Film Grade</span>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <!-- VIDEO CARD 6: Graphics & Carousels (3D VFX Product Launch) -->
-            <article class="vertical-video-card glass-panel magnetic-target" data-category="graphics" data-project="06" data-video-src="assets/videos/video6.mp4" data-title="Kinetic 3D VFX Product Launch" data-tools="After Effects + Cinema 4D" data-retention="1.1M+ Views · 91% Retention" data-summary="Kinetic typography, holographic UI renders, fast cuts, and futuristic glitch transitions crafted for tech hardware release.">
-              <div class="card-video-canvas v-thumb-6">
-                <video class="card-video-element" loop muted playsinline preload="metadata" data-src="assets/videos/video6.mp4">
-                  <source src="assets/videos/video6.mp4" type="video/mp4">
-                </video>
-
-                <div class="video-ambient-glow glow-cyan"></div>
-
-                <div class="video-bg-art art-vfx-6">
-                  <div class="cyber-orb-center"></div>
-                  <div class="hologram-scan-lines"></div>
-                  <div class="kinetic-caption-chip cyan-chip">KINETIC 3D RENDER</div>
-                </div>
-
-                <div class="card-top-bar">
-                  <span class="video-card-badge">GRAPHICS &amp; VFX</span>
-                  <button class="video-card-sound-btn" type="button" aria-label="Toggle Sound">
-                    <i class="fa-solid fa-volume-xmark"></i>
-                  </button>
-                </div>
-
-                <div class="video-client-branding">
-                  <span class="client-logo-pill"><i class="fa-solid fa-microchip"></i> NEXUS HARDWARE</span>
-                </div>
-
-                <div class="video-card-play-btn" role="button" aria-label="Play 3D Product Launch Video">
-                  <i class="fa-solid fa-play"></i>
-                  <span class="play-wave-ring"></span>
-                </div>
-
-                <div class="video-card-meta-overlay">
-                  <div class="meta-niche-tag">3D MOTION DESIGN</div>
-                  <h3 class="video-card-title">NEXUS PRO LAUNCH</h3>
-                  <div class="video-card-metrics">
-                    <span class="v-metric"><i class="fa-solid fa-eye gold"></i> 1.1M Views</span>
-                    <span class="v-metric"><i class="fa-solid fa-wand-magic-sparkles cyan"></i> 3D Particle VFX</span>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <!-- VIDEO CARD 7: Commercial (Luxury Villa Tour) -->
-            <article class="vertical-video-card glass-panel magnetic-target" data-category="commercial" data-project="07" data-video-src="assets/videos/video7.mp4" data-title="Ultra-Luxury Villa Tour" data-tools="Premiere Pro + Davinci Resolve" data-retention="650K+ Views · 86% Retention" data-summary="Golden hour Davinci Resolve color science, seamless FPV drone speed ramps, and high-end ambient soundscapes.">
-              <div class="card-video-canvas v-thumb-7">
-                <video class="card-video-element" loop muted playsinline preload="metadata" data-src="assets/videos/video7.mp4">
-                  <source src="assets/videos/video7.mp4" type="video/mp4">
-                </video>
-
-                <div class="video-ambient-glow glow-gold"></div>
-
-                <div class="video-bg-art art-villa-7">
-                  <div class="infinity-pool-reflection"></div>
-                  <div class="golden-hour-sun"></div>
-                  <div class="kinetic-caption-chip gold-chip">$12.5M PALM ESTATE</div>
-                </div>
-
-                <div class="card-top-bar">
-                  <span class="video-card-badge">COMMERCIAL</span>
-                  <button class="video-card-sound-btn" type="button" aria-label="Toggle Sound">
-                    <i class="fa-solid fa-volume-xmark"></i>
-                  </button>
-                </div>
-
-                <div class="video-client-branding">
-                  <span class="client-logo-pill"><i class="fa-solid fa-building"></i> ESTATE PRIME</span>
-                </div>
-
-                <div class="video-card-play-btn" role="button" aria-label="Play Luxury Villa Tour Video">
-                  <i class="fa-solid fa-play"></i>
-                  <span class="play-wave-ring"></span>
-                </div>
-
-                <div class="video-card-meta-overlay">
-                  <div class="meta-niche-tag">REAL ESTATE COMMERCIAL</div>
-                  <h3 class="video-card-title">LUXURY VILLA SHOWCASE</h3>
-                  <div class="video-card-metrics">
-                    <span class="v-metric"><i class="fa-solid fa-eye gold"></i> 650K Views</span>
-                    <span class="v-metric"><i class="fa-solid fa-sun cyan"></i> Golden Hour LUT</span>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <!-- VIDEO CARD 8: Graphics & Carousels (SaaS Motion Explainer) -->
-            <article class="vertical-video-card glass-panel magnetic-target" data-category="graphics" data-project="08" data-video-src="assets/videos/video8.mp4" data-title="SaaS Explainer Motion Graphics" data-tools="After Effects + Illustrator" data-retention="1.3M+ Views · 90% Retention" data-summary="Isometric UI vectors, kinetic workflow transitions, and high-energy narration sync crafted to drive software signups.">
-              <div class="card-video-canvas v-thumb-8">
-                <video class="card-video-element" loop muted playsinline preload="metadata" data-src="assets/videos/video8.mp4">
-                  <source src="assets/videos/video8.mp4" type="video/mp4">
-                </video>
-
-                <div class="video-ambient-glow glow-cyan"></div>
-
-                <div class="video-bg-art art-saas-8">
-                  <div class="isometric-grid-stage"></div>
-                  <div class="floating-ui-card"></div>
-                  <div class="kinetic-caption-chip cyan-chip">AUTOMATE IN 1-CLICK</div>
-                </div>
-
-                <div class="card-top-bar">
-                  <span class="video-card-badge">GRAPHICS &amp; VFX</span>
-                  <button class="video-card-sound-btn" type="button" aria-label="Toggle Sound">
-                    <i class="fa-solid fa-volume-xmark"></i>
-                  </button>
-                </div>
-
-                <div class="video-client-branding">
-                  <span class="client-logo-pill"><i class="fa-solid fa-code"></i> SYNAPSE AI</span>
-                </div>
-
-                <div class="video-card-play-btn" role="button" aria-label="Play SaaS Explainer Video">
-                  <i class="fa-solid fa-play"></i>
-                  <span class="play-wave-ring"></span>
-                </div>
-
-                <div class="video-card-meta-overlay">
-                  <div class="meta-niche-tag">SAAS EXPLAINER</div>
-                  <h3 class="video-card-title">SYNAPSE AI WORKFLOW</h3>
-                  <div class="video-card-metrics">
-                    <span class="v-metric"><i class="fa-solid fa-eye gold"></i> 1.3M Views</span>
-                    <span class="v-metric"><i class="fa-solid fa-chart-pie cyan"></i> High Conversion</span>
-                  </div>
                 </div>
               </div>
             </article>
@@ -1227,73 +939,30 @@
       <!-- Video Player Viewport -->
       <div class="modal-player-viewport" id="modalPlayerViewport">
         
-        <!-- Interactive Video Player & Color Grade Viewport -->
+        <!-- Direct Video Player Viewport -->
         <div class="video-display-area" id="videoDisplayArea">
-          
-          <!-- Real HTML5 Video Player (Plays when video file is loaded) -->
-          <video class="modal-actual-video" id="modalActualVideo" playsinline preload="metadata"></video>
-          
-          <!-- Before / After Color Grading Slider Container -->
-          <div class="color-grade-comparison-container" id="colorGradeContainer">
-            
-            <!-- Layer 1: After (Full Color Grade & VFX) -->
-            <div class="grade-layer grade-after" id="gradeAfterLayer">
-              <div class="sim-scene-graphic after-vibe">
-                <div class="cinematic-lighting"></div>
-                <div class="hud-timecode" id="modalLiveTimecode">00:00:14:18</div>
-                <div class="scene-center-art">
-                  <div class="pulsing-showreel-icon"><i class="fa-solid fa-film"></i></div>
-                  <span class="scene-title-art" id="modalSceneTitle">MASTER COLOR GRADED</span>
-                  <span class="scene-spec">Rec.709 4K UHD · 60FPS · 10-BIT 4:2:2</span>
-                </div>
-              </div>
-              <span class="grade-label after-tag">COLOR GRADED (FINAL)</span>
-            </div>
-
-            <!-- Layer 2: Before (Flat RAW Log Footage) -->
-            <div class="grade-layer grade-before" id="gradeBeforeLayer">
-              <div class="sim-scene-graphic before-vibe">
-                <div class="scene-center-art">
-                  <div class="pulsing-showreel-icon flat"><i class="fa-solid fa-camera"></i></div>
-                  <span class="scene-title-art">RAW S-LOG3 PROFILE</span>
-                  <span class="scene-spec">FLAT UNGRADED SENSOR DATA</span>
-                </div>
-              </div>
-              <span class="grade-label before-tag">RAW UNGRADED LOG</span>
-            </div>
-
-            <!-- Splitter Handle -->
-            <div class="grade-splitter-handle" id="gradeSplitterHandle">
-              <div class="handle-line"></div>
-              <div class="handle-pill">
-                <i class="fa-solid fa-left-right"></i>
-              </div>
-            </div>
-
-          </div>
-
+          <!-- Real HTML5 Video Player -->
+          <video class="modal-actual-video video-active" id="modalActualVideo" controls playsinline preload="auto"></video>
         </div>
 
         <!-- Custom NLE Transport Controls -->
         <div class="modal-transport-bar">
           <div class="transport-scrub-row">
-            <input type="range" class="modal-scrub-slider" id="modalScrubSlider" min="0" max="100" value="35" aria-label="Scrub video timeline" />
+            <input type="range" class="modal-scrub-slider" id="modalScrubSlider" min="0" max="100" value="0" aria-label="Scrub video timeline" />
           </div>
           
           <div class="transport-buttons-row">
             <div class="transport-left">
               <button class="transport-btn" id="modalPlayPauseBtn" type="button" aria-label="Play/Pause">
-                <i class="fa-solid fa-pause" id="playPauseIcon"></i>
+                <i class="fa-solid fa-play" id="playPauseIcon"></i>
               </button>
               <button class="transport-btn" id="modalRestartBtn" type="button" aria-label="Restart">
                 <i class="fa-solid fa-rotate-left"></i>
               </button>
-              <span class="transport-time" id="modalTimeDisplay">00:12 / 00:30</span>
+              <span class="transport-time" id="modalTimeDisplay">00:00 / 00:00</span>
             </div>
 
-            <div class="transport-center">
-              <span class="grade-toggle-instruction"><i class="fa-solid fa-arrows-left-right"></i> Drag center line to compare RAW vs Color Grade</span>
-            </div>
+            <div class="transport-center"></div>
 
             <div class="transport-right">
               <!-- Speed Toggle -->

@@ -1591,20 +1591,23 @@ img, video {
   color: #000000;
 }
 
-/* 4-Column 9:16 Video Grid */
+/* Centered 9:16 Video Grid */
 .video-showcase-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 400px));
+  justify-content: center;
+  gap: 2.5rem;
   width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 /* 9:16 Vertical Video Card */
 .vertical-video-card {
   position: relative;
-  border-radius: 20px;
+  border-radius: 24px;
   overflow: hidden;
-  background: #0b0c13;
+  background: #000000;
   border: 1px solid var(--glass-border);
   transition: transform 0.4s var(--ease-cinematic), box-shadow 0.4s ease, border-color 0.4s ease, opacity 0.35s ease;
   cursor: pointer;
@@ -1628,12 +1631,36 @@ img, video {
   position: relative;
   width: 100%;
   aspect-ratio: 9 / 16;
-  min-height: 480px;
+  min-height: 520px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #07080d;
+  background: #000000;
+}
+
+.card-video-canvas::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.card-video-canvas::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 100%);
+  z-index: 2;
+  pointer-events: none;
 }
 
 /* Embedded HTML5 Video Element */
@@ -1643,16 +1670,10 @@ img, video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 3;
-  opacity: 0;
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-  background: #000;
-}
-
-.card-video-element.video-loaded,
-.card-video-element.video-playing {
+  z-index: 1;
   opacity: 1;
+  background: #000000;
+  display: block;
 }
 
 /* Top Elements Bar */
